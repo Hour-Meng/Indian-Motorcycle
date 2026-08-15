@@ -1,0 +1,19 @@
+{
+  "name": "indian-scout-3d-showcase",
+  "version": "1.0.0",
+  "description": "Apple-grade interactive 3D canvas scrollytelling experience for Indian Scout Bobber",
+  "scripts": {
+    "start": "python3 -m http.server 3000",
+    "dev": "python3 -m http.server 3000",
+    "serve": "npx serve -l 3000 ."
+  },
+  "keywords": [
+    "scrollytelling",
+    "canvas",
+    "gsap",
+    "3d-scrub",
+    "interactive"
+  ],
+  "author": "",
+  "license": "ISC"
+}
