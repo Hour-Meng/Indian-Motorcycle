@@ -1,0 +1,6 @@
+{
+  "name": "Indian Scout Bobber",
+  "description": "Cinematic landing page and showcase lineup for Indian Scout Bobbers and motorcycles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

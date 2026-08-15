@@ -3,238 +3,1210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Experience the Indian Scout Bobber through an interactive, 3D scrollytelling canvas experience." />
-  <title>Indian Scout Bobber | Interactive 3D Experience</title>
+  <meta name="description" content="Discover the 2026 Indian Scout Bobber lineup. Experience American V-Twin craftsmanship with our interactive 3D scrollytelling showcase and real-time configurator." />
+  <title>2026 Indian Scout Bobber | Official Lineup & Interactive 3D Showcase</title>
 
-  <!-- Google Fonts: Syne & Outfit & Space Grotesk -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- GSAP & ScrollTrigger -->
+  <!-- GSAP & ScrollTrigger CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="is-loading">
+<body class="landing-active">
 
   <!-- ================================================================= -->
-  <!-- 1. PRELOADER & INITIAL LOAD HUD                                   -->
+  <!-- 1. MAIN APPLICATION HEADER / NAVIGATION                           -->
+  <!-- ================================================================= -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <!-- Brand Logo -->
+      <a href="#hero" class="brand-link" aria-label="Indian Motorcycle Home">
+        <span class="brand-crest">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </span>
+        <div class="brand-titles">
+          <span class="brand-name">INDIAN</span>
+          <span class="brand-sub">SCOUT BOBBER</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="main-nav" aria-label="Primary Navigation">
+        <a href="#hero" class="nav-link">Overview</a>
+        <a href="#lineup" class="nav-link">Models</a>
+        <a href="#engineering" class="nav-link">Engineering</a>
+        <a href="#rev-simulator" class="nav-link">V-Twin Rev</a>
+        <a href="#compare" class="nav-link">Specifications</a>
+        <button id="nav-launch-3d" class="nav-link highlight-3d" aria-label="Open 3D Showcase">
+          <span class="pulse-dot"></span>
+          <span>3D Showcase Room</span>
+        </button>
+      </nav>
+
+      <!-- Action Hub & Quick Modal Triggers -->
+      <div class="header-actions">
+        <button id="nav-btn-customizer" class="btn-ghost-nav" title="Launch Customizer Configurator">
+          <span>Configurator</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <button id="nav-btn-test-ride" class="btn-primary-nav" title="Book a Test Ride">
+          <span>Book a Ride</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================================= -->
+  <!-- 2. LANDING PAGE VIEW WRAPPER                                      -->
+  <!-- ================================================================= -->
+  <div id="landing-page-view" class="landing-page-container">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="hero-backdrop">
+        <div class="hero-glow"></div>
+        <div class="hero-grid-pattern"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">2026 SPEEDPLUS 1250 SERIES</span>
+        </div>
+
+        <h1 class="hero-title">
+          STRIPPED DOWN.<br />
+          <span class="text-gradient">TURNED ALL THE WAY UP.</span>
+        </h1>
+
+        <p class="hero-description">
+          Unapologetic American power meets raw, blacked-out bobber design. Engineered with the all-new 1250cc liquid-cooled SpeedPlus V-Twin engine delivering 105 horsepower of visceral adrenaline.
+        </p>
+
+        <div class="hero-cta-group">
+          <button id="hero-launch-3d" class="btn-hero-primary" aria-label="Explore Models in 3D Showcase">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            <span>Explore 3D Showcase</span>
+          </button>
+          
+          <a href="#lineup" class="btn-hero-secondary">
+            <span>Explore Models</span>
+          </a>
+
+          <button id="hero-open-test-ride" class="btn-hero-outline">
+            <span>Schedule Test Ride</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </button>
+        </div>
+
+        <!-- Telemetry Metrics Bar -->
+        <div class="hero-telemetry-bar">
+          <div class="telemetry-box">
+            <span class="telemetry-num">105 <small>HP</small></span>
+            <span class="telemetry-label">PEAK HORSEPOWER</span>
+          </div>
+          <div class="telemetry-separator"></div>
+          <div class="telemetry-box">
+            <span class="telemetry-num">1250 <small>CC</small></span>
+            <span class="telemetry-label">SPEEDPLUS V-TWIN</span>
+          </div>
+          <div class="telemetry-separator"></div>
+          <div class="telemetry-box">
+            <span class="telemetry-num">3.7 <small>SEC</small></span>
+            <span class="telemetry-label">0–60 MPH TIME</span>
+          </div>
+          <div class="telemetry-separator"></div>
+          <div class="telemetry-box">
+            <span class="telemetry-num">25.6 <small>IN</small></span>
+            <span class="telemetry-label">ULTRA-LOW SEAT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 3. SCOUT LINEUP MODEL SHOWCASE (WITH CONTINUOUS VIDEO CARDS)     -->
+    <!-- =============================================================== -->
+    <section class="lineup-section" id="lineup">
+      <div class="section-header">
+        <span class="section-tag">THE 2026 LINEUP</span>
+        <h2 class="section-title">FIVE ICONIC BUILDS. ONE LEGENDARY DNA.</h2>
+        <p class="section-subtitle">
+          Experience the Indian Scout driving in action below. Click on any video card to launch the full 3D interactive showcase.
+        </p>
+
+        <!-- Model Category Filter Tabs -->
+        <div class="model-filter-tabs" role="tablist">
+          <button class="filter-tab active" data-filter="all">All Models</button>
+          <button class="filter-tab" data-filter="bobber">Bobber</button>
+          <button class="filter-tab" data-filter="sport">Sport</button>
+          <button class="filter-tab" data-filter="performance">Performance</button>
+          <button class="filter-tab" data-filter="heritage">Heritage</button>
+        </div>
+      </div>
+
+      <!-- Model Grid with Always-On-Display Scout Video -->
+      <div class="model-cards-grid">
+
+        <!-- CARD 1: Scout Bobber (The Icon) -->
+        <article class="model-card featured-card" data-category="bobber">
+          <div class="card-badge">THE ICON</div>
+          <div class="card-header">
+            <span class="card-series">SPEEDPLUS 1250</span>
+            <h3 class="card-title">SCOUT BOBBER</h3>
+            <p class="card-tagline">Raw, stripped-down styling with an aggressive blacked-out front stance and chopped fenders.</p>
+          </div>
+
+          <!-- Video Preview Container (Always Playing Indian Scout driving video) -->
+          <div class="model-visual-preview video-card-interactive" data-model="bobber" title="Click to launch Indian Scout 3D Showcase">
+            <video class="card-scout-video" autoplay loop muted playsinline preload="auto">
+              <source src="videos/Indian_scout_driving.mp4" type="video/mp4" />
+            </video>
+            <div class="video-overlay-gradient"></div>
+            <div class="video-live-badge">
+              <span class="live-dot"></span>
+              <span class="live-text">105 HP LIVE ACTION</span>
+            </div>
+            <div class="video-launch-prompt">
+              <span class="prompt-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </span>
+              <span class="prompt-text">LAUNCH 3D SHOWCASE</span>
+            </div>
+            <div class="model-silhouette-box">
+              <span class="model-spec-badge">105 HP • 82 FT-LBS</span>
+            </div>
+          </div>
+
+          <!-- Color Swatch Picker -->
+          <div class="color-picker-row">
+            <span class="color-label">Color:</span>
+            <div class="swatches">
+              <button class="swatch active" style="background:#151515;" title="Black Metallic" data-color="Black Metallic"></button>
+              <button class="swatch" style="background:#5a5a5a;" title="Silver Quartz Smoke" data-color="Silver Quartz Smoke"></button>
+              <button class="swatch" style="background:#701212;" title="Sunset Red Smoke" data-color="Sunset Red Smoke"></button>
+              <button class="swatch" style="background:#c5a880;" title="Nara Bronze Metallic" data-color="Nara Bronze Metallic"></button>
+            </div>
+          </div>
+
+          <!-- Quick Specs List -->
+          <div class="card-specs-grid">
+            <div class="card-spec-item">
+              <span class="cs-label">Engine</span>
+              <strong class="cs-val">1250cc V-Twin</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Seat Height</span>
+              <strong class="cs-val">25.6 in (649 mm)</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Front Suspension</span>
+              <strong class="cs-val">Telescopic Fork</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Starting MSRP</span>
+              <strong class="cs-val price-val">$12,999</strong>
+            </div>
+          </div>
+
+          <!-- Card Action Buttons -->
+          <div class="card-actions">
+            <button class="btn-card-launch-3d" data-model="bobber">
+              <span>Launch 3D Showcase</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-card-customizer" data-model="scout-bobber-2025">
+              <span>Configure</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 2: Sport Scout -->
+        <article class="model-card" data-category="sport">
+          <div class="card-badge">CLUB-STYLE AGGRESSION</div>
+          <div class="card-header">
+            <span class="card-series">SPEEDPLUS 1250</span>
+            <h3 class="card-title">SPORT SCOUT</h3>
+            <p class="card-tagline">Aggressive club-style attitude equipped with a quarter fairing, moto handlebars, and 19-inch front wheel.</p>
+          </div>
+
+          <!-- Video Preview Container -->
+          <div class="model-visual-preview video-card-interactive" data-model="sport" title="Click to launch Indian Scout 3D Showcase">
+            <video class="card-scout-video" autoplay loop muted playsinline preload="auto">
+              <source src="videos/Indian_scout_driving.mp4" type="video/mp4" />
+            </video>
+            <div class="video-overlay-gradient"></div>
+            <div class="video-live-badge">
+              <span class="live-dot"></span>
+              <span class="live-text">105 HP LIVE ACTION</span>
+            </div>
+            <div class="video-launch-prompt">
+              <span class="prompt-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </span>
+              <span class="prompt-text">LAUNCH 3D SHOWCASE</span>
+            </div>
+            <div class="model-silhouette-box">
+              <span class="model-spec-badge">105 HP • SPORT SEAT</span>
+            </div>
+          </div>
+
+          <div class="color-picker-row">
+            <span class="color-label">Color:</span>
+            <div class="swatches">
+              <button class="swatch active" style="background:#151515;" title="Black Smoke" data-color="Black Smoke"></button>
+              <button class="swatch" style="background:#3a1d1d;" title="Ruby Red Smoke" data-color="Ruby Red Smoke"></button>
+              <button class="swatch" style="background:#e5e5e5;" title="Ghost White Metallic" data-color="Ghost White Metallic"></button>
+            </div>
+          </div>
+
+          <div class="card-specs-grid">
+            <div class="card-spec-item">
+              <span class="cs-label">Engine</span>
+              <strong class="cs-val">1250cc V-Twin</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Front Wheel</span>
+              <strong class="cs-val">19-inch Sport Cast</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Handlebars</span>
+              <strong class="cs-val">Moto Bar with 4" Riser</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Starting MSRP</span>
+              <strong class="cs-val price-val">$13,499</strong>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-card-launch-3d" data-model="sport">
+              <span>Launch 3D Showcase</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-card-customizer" data-model="sport-scout">
+              <span>Configure</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 3: 101 Scout -->
+        <article class="model-card" data-category="performance">
+          <div class="card-badge gold-badge">FACTORY CUSTOM</div>
+          <div class="card-header">
+            <span class="card-series">SPEEDPLUS 1250 HIGH-OUTPUT</span>
+            <h3 class="card-title">101 SCOUT</h3>
+            <p class="card-tagline">The highest-performing Scout ever engineered. Dual Brembo disc brakes, inverted front forks, and custom paint.</p>
+          </div>
+
+          <!-- Video Preview Container -->
+          <div class="model-visual-preview video-card-interactive" data-model="101" title="Click to launch Indian Scout 3D Showcase">
+            <video class="card-scout-video" autoplay loop muted playsinline preload="auto">
+              <source src="videos/Indian_scout_driving.mp4" type="video/mp4" />
+            </video>
+            <div class="video-overlay-gradient"></div>
+            <div class="video-live-badge">
+              <span class="live-dot"></span>
+              <span class="live-text">111 HP HIGH OUTPUT</span>
+            </div>
+            <div class="video-launch-prompt">
+              <span class="prompt-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </span>
+              <span class="prompt-text">LAUNCH 3D SHOWCASE</span>
+            </div>
+            <div class="model-silhouette-box">
+              <span class="model-spec-badge">111 HP • BREMBO DUAL BRAKES</span>
+            </div>
+          </div>
+
+          <div class="color-picker-row">
+            <span class="color-label">Color:</span>
+            <div class="swatches">
+              <button class="swatch active" style="background:#8b1313;" title="Sunset Red Metallic Custom" data-color="Sunset Red Metallic"></button>
+              <button class="swatch" style="background:#111111;" title="Ghost White Metallic Custom" data-color="Ghost White Metallic"></button>
+            </div>
+          </div>
+
+          <div class="card-specs-grid">
+            <div class="card-spec-item">
+              <span class="cs-label">Horsepower</span>
+              <strong class="cs-val">111 HP Tuned</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Braking</span>
+              <strong class="cs-val">Dual 320mm Brembo</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Suspension</span>
+              <strong class="cs-val">Inverted Cartridge Forks</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Starting MSRP</span>
+              <strong class="cs-val price-val">$16,999</strong>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-card-launch-3d" data-model="101">
+              <span>Launch 3D Showcase</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-card-customizer" data-model="101-scout">
+              <span>Configure</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 4: Scout Bobber Twenty -->
+        <article class="model-card" data-category="heritage">
+          <div class="card-badge">VINTAGE HERITAGE</div>
+          <div class="card-header">
+            <span class="card-series">SPEEDPLUS 1250</span>
+            <h3 class="card-title">SCOUT BOBBER TWENTY</h3>
+            <p class="card-tagline">Classic throwback aesthetics featuring 10-inch mini-ape handlebars, wire-spoke wheels, and leather solo seat.</p>
+          </div>
+
+          <!-- Video Preview Container -->
+          <div class="model-visual-preview video-card-interactive" data-model="twenty" title="Click to launch Indian Scout 3D Showcase">
+            <video class="card-scout-video" autoplay loop muted playsinline preload="auto">
+              <source src="videos/Indian_scout_driving.mp4" type="video/mp4" />
+            </video>
+            <div class="video-overlay-gradient"></div>
+            <div class="video-live-badge">
+              <span class="live-dot"></span>
+              <span class="live-text">105 HP LIVE ACTION</span>
+            </div>
+            <div class="video-launch-prompt">
+              <span class="prompt-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </span>
+              <span class="prompt-text">LAUNCH 3D SHOWCASE</span>
+            </div>
+            <div class="model-silhouette-box">
+              <span class="model-spec-badge">105 HP • 10" MINI APES</span>
+            </div>
+          </div>
+
+          <div class="color-picker-row">
+            <span class="color-label">Color:</span>
+            <div class="swatches">
+              <button class="swatch active" style="background:#151515;" title="Black Metallic" data-color="Black Metallic"></button>
+              <button class="swatch" style="background:#4b5320;" title="Sagebrush Smoke" data-color="Sagebrush Smoke"></button>
+              <button class="swatch" style="background:#701212;" title="Sunset Red Smoke" data-color="Sunset Red Smoke"></button>
+            </div>
+          </div>
+
+          <div class="card-specs-grid">
+            <div class="card-spec-item">
+              <span class="cs-label">Engine</span>
+              <strong class="cs-val">1250cc V-Twin</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Wheels</span>
+              <strong class="cs-val">Wire Spoke Wheels</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Seat</span>
+              <strong class="cs-val">Floating Leather Solo</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Starting MSRP</span>
+              <strong class="cs-val price-val">$13,999</strong>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-card-launch-3d" data-model="twenty">
+              <span>Launch 3D Showcase</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-card-customizer" data-model="scout-bobber-twenty">
+              <span>Configure</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARD 5: Scout Classic -->
+        <article class="model-card" data-category="heritage">
+          <div class="card-badge">TIMELESS CRUISER</div>
+          <div class="card-header">
+            <span class="card-series">SPEEDPLUS 1250</span>
+            <h3 class="card-title">SCOUT CLASSIC</h3>
+            <p class="card-tagline">Iconic American cruiser heritage with sweeping fenders, brilliant chrome highlights, and relaxed ergonomics.</p>
+          </div>
+
+          <!-- Video Preview Container -->
+          <div class="model-visual-preview video-card-interactive" data-model="classic" title="Click to launch Indian Scout 3D Showcase">
+            <video class="card-scout-video" autoplay loop muted playsinline preload="auto">
+              <source src="videos/Indian_scout_driving.mp4" type="video/mp4" />
+            </video>
+            <div class="video-overlay-gradient"></div>
+            <div class="video-live-badge">
+              <span class="live-dot"></span>
+              <span class="live-text">105 HP LIVE ACTION</span>
+            </div>
+            <div class="video-launch-prompt">
+              <span class="prompt-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </span>
+              <span class="prompt-text">LAUNCH 3D SHOWCASE</span>
+            </div>
+            <div class="model-silhouette-box">
+              <span class="model-spec-badge">105 HP • CHROME TRIM</span>
+            </div>
+          </div>
+
+          <div class="color-picker-row">
+            <span class="color-label">Color:</span>
+            <div class="swatches">
+              <button class="swatch active" style="background:#151515;" title="Black Metallic" data-color="Black Metallic"></button>
+              <button class="swatch" style="background:#701212;" title="Sunset Red Metallic" data-color="Sunset Red Metallic"></button>
+              <button class="swatch" style="background:#d9d9d9;" title="Silver Quartz Metallic" data-color="Silver Quartz Metallic"></button>
+            </div>
+          </div>
+
+          <div class="card-specs-grid">
+            <div class="card-spec-item">
+              <span class="cs-label">Engine</span>
+              <strong class="cs-val">1250cc V-Twin</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Fenders</span>
+              <strong class="cs-val">Traditional Swept</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Ergonomics</span>
+              <strong class="cs-val">Relaxed Pullback</strong>
+            </div>
+            <div class="card-spec-item">
+              <span class="cs-label">Starting MSRP</span>
+              <strong class="cs-val price-val">$13,999</strong>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-card-launch-3d" data-model="classic">
+              <span>Launch 3D Showcase</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-card-customizer" data-model="scout-classic">
+              <span>Configure</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 4. SPEEDPLUS 1250 ENGINEERING SPOTLIGHT                         -->
+    <!-- =============================================================== -->
+    <section class="engineering-section" id="engineering">
+      <div class="engineering-grid">
+        <div class="eng-text-col">
+          <span class="section-tag">ENGINEERING MASTERCLASS</span>
+          <h2 class="eng-heading">THE SPEEDPLUS 1250 LIQUID-COOLED V-TWIN</h2>
+          <p class="eng-body">
+            Redesigned from the crankcase up. The all-new 1250cc liquid-cooled SpeedPlus V-Twin engine generates an intoxicating blend of low-end grunt and high-revving peak power.
+          </p>
+
+          <div class="eng-features-list">
+            <div class="eng-feature-item">
+              <div class="eng-icon">01</div>
+              <div>
+                <strong class="eng-feat-title">105 Horsepower & 82 ft-lbs Torque</strong>
+                <p class="eng-feat-desc">Smooth, linear acceleration tuned specifically for lightning-quick highway passes and aggressive launch capability.</p>
+              </div>
+            </div>
+
+            <div class="eng-feature-item">
+              <div class="eng-icon">02</div>
+              <div>
+                <strong class="eng-feat-title">Ride Command & 3 Throttle Modes</strong>
+                <p class="eng-feat-desc">Switch seamlessly between Sport, Standard, and Tour modes to tailor throttle response and traction intervention in real time.</p>
+              </div>
+            </div>
+
+            <div class="eng-feature-item">
+              <div class="eng-icon">03</div>
+              <div>
+                <strong class="eng-feat-title">Cast Aluminum Backbone Chassis</strong>
+                <p class="eng-feat-desc">Rigid, lightweight structure engineered for razor-sharp handling and intuitive lean angle stability.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eng-visual-col">
+          <div class="eng-spec-card glass-card">
+            <div class="eng-card-header">
+              <span class="accent-tag">POWERTRAIN BLUEPRINT</span>
+              <span class="tag-meta">SPECS // V-TWIN</span>
+            </div>
+            <div class="eng-metrics-grid">
+              <div class="metric-card">
+                <span class="mc-num">1250</span>
+                <span class="mc-unit">CC</span>
+                <span class="mc-label">DISPLACEMENT</span>
+              </div>
+              <div class="metric-card">
+                <span class="mc-num">105</span>
+                <span class="mc-unit">HP</span>
+                <span class="mc-label">PEAK POWER</span>
+              </div>
+              <div class="metric-card">
+                <span class="mc-num">82</span>
+                <span class="mc-unit">FT-LBS</span>
+                <span class="mc-label">PEAK TORQUE</span>
+              </div>
+              <div class="metric-card">
+                <span class="mc-num">6</span>
+                <span class="mc-unit">SPEED</span>
+                <span class="mc-label">TRANSMISSION</span>
+              </div>
+            </div>
+            <div class="eng-card-footer">
+              <p>Liquid-cooled system ensures consistent optimal operating temperatures under any riding condition.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 5. ACOUSTIC AMERICAN V-TWIN REV SIMULATOR                       -->
+    <!-- =============================================================== -->
+    <section class="rev-simulator-section" id="rev-simulator">
+      <div class="rev-container glass-card">
+        <div class="rev-header">
+          <span class="section-tag">ACOUSTIC ADRENALINE</span>
+          <h2 class="rev-title">EXPERIENCE THE V-TWIN ROAR</h2>
+          <p class="rev-subtitle">
+            Synthesized real-time dual-cylinder firing order of the 1250cc liquid-cooled SpeedPlus engine. Press and hold the throttle button below.
+          </p>
+        </div>
+
+        <div class="rev-tachometer-wrapper">
+          <div class="tachometer-dial">
+            <div class="tacho-scale"></div>
+            <div class="tacho-needle" id="tacho-needle"></div>
+            <div class="tacho-center">
+              <span class="tacho-rpm-val" id="tacho-rpm-display">950</span>
+              <span class="tacho-rpm-label">RPM</span>
+            </div>
+          </div>
+
+          <div class="rev-status-box">
+            <div class="rev-stat-item">
+              <span class="stat-lbl">ENGINE STATUS</span>
+              <span class="stat-val status-active" id="rev-engine-status">IDLE (950 RPM)</span>
+            </div>
+            <div class="rev-stat-item">
+              <span class="stat-lbl">EXHAUST NOTE</span>
+              <span class="stat-val" id="rev-exhaust-type">2-INTO-1 SHORTY RAW</span>
+            </div>
+            <div class="rev-stat-item">
+              <span class="stat-lbl">PEAK REDLINE</span>
+              <span class="stat-val text-red">8,200 RPM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rev-controls-group">
+          <button id="btn-rev-throttle" class="btn-rev-action" aria-label="Hold to rev engine">
+            <span class="rev-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </span>
+            <span class="rev-main-text">HOLD TO REV SPEEDPLUS 1250</span>
+            <span class="rev-sub-text">(Press & Hold or Tap Repeatedly)</span>
+          </button>
+          
+          <button id="btn-audio-toggle" class="btn-audio-mute" title="Toggle Rev Audio Engine">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <span id="audio-toggle-text">Sound Engine Active</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 6. SPECIFICATION COMPARISON MATRIX                               -->
+    <!-- =============================================================== -->
+    <section class="compare-section" id="compare">
+      <div class="section-header">
+        <span class="section-tag">SIDE-BY-SIDE MATRIX</span>
+        <h2 class="section-title">COMPARE SCOUT MODELS</h2>
+        <p class="section-subtitle">Select the performance profile that matches your riding style.</p>
+      </div>
+
+      <div class="table-container glass-card">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Scout Bobber</th>
+              <th>Sport Scout</th>
+              <th>101 Scout</th>
+              <th>Scout Bobber Twenty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Displacement</strong></td>
+              <td>1250 cc</td>
+              <td>1250 cc</td>
+              <td>1250 cc High-Output</td>
+              <td>1250 cc</td>
+            </tr>
+            <tr>
+              <td><strong>Horsepower</strong></td>
+              <td>105 HP</td>
+              <td>105 HP</td>
+              <td><span class="highlight-spec">111 HP</span></td>
+              <td>105 HP</td>
+            </tr>
+            <tr>
+              <td><strong>Peak Torque</strong></td>
+              <td>82 ft-lbs</td>
+              <td>82 ft-lbs</td>
+              <td><span class="highlight-spec">82 ft-lbs @ 6300 RPM</span></td>
+              <td>82 ft-lbs</td>
+            </tr>
+            <tr>
+              <td><strong>Seat Height</strong></td>
+              <td>25.6 in (649 mm)</td>
+              <td>25.7 in (654 mm)</td>
+              <td>25.7 in (654 mm)</td>
+              <td>25.6 in (649 mm)</td>
+            </tr>
+            <tr>
+              <td><strong>Front Brakes</strong></td>
+              <td>Single 298mm Disc</td>
+              <td>Single 298mm Disc</td>
+              <td><span class="highlight-spec">Dual 320mm Brembo</span></td>
+              <td>Single 298mm Disc</td>
+            </tr>
+            <tr>
+              <td><strong>Handlebars</strong></td>
+              <td>Low-Rise Tracker</td>
+              <td>Moto Bar w/ 4" Riser</td>
+              <td>Moto Bar w/ 6" Riser</td>
+              <td>10" Mini-Apes</td>
+            </tr>
+            <tr>
+              <td><strong>Starting MSRP</strong></td>
+              <td><strong>$12,999</strong></td>
+              <td><strong>$13,499</strong></td>
+              <td><strong>$16,999</strong></td>
+              <td><strong>$13,999</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 7. OFFICIAL INDIAN MOTORCYCLE ACTION HUB                        -->
+    <!-- =============================================================== -->
+    <section class="action-hub-section" id="action-hub">
+      <div class="hub-container">
+        <div class="hub-card test-ride-hub glass-card">
+          <div class="hub-icon-badge">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <h3>EXPERIENCE IT LIVE</h3>
+          <p>Feel the relentless surge of 105 horsepower in person. Schedule your official dealer test ride today.</p>
+          <button id="hub-book-test-ride" class="btn-hub-primary">
+            <span>Book Test Ride</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </button>
+        </div>
+
+        <div class="hub-card support-hub glass-card">
+          <div class="hub-icon-badge">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h3>VIP RIDER COMMUNITY</h3>
+          <p>Get exclusive early access to 2026 Scout drops, factory custom accessories, and rider events.</p>
+          <button id="hub-open-vip-signup" class="btn-hub-secondary">
+            <span>Join VIP Club</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </button>
+        </div>
+
+        <div class="hub-card dealer-hub glass-card">
+          <div class="hub-icon-badge">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3>FIND AUTHORIZED DEALER</h3>
+          <p>Locate the nearest authorized Indian Motorcycle dealership for inventory, parts, and certified service.</p>
+          <button id="hub-locate-dealer" class="btn-hub-secondary">
+            <span>Locate Dealer</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="landing-footer">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="brand-titles">
+            <span class="brand-name">INDIAN MOTORCYCLE</span>
+            <span class="brand-sub">AMERICA'S FIRST MOTORCYCLE COMPANY</span>
+          </div>
+          <p class="footer-desc">
+            Crafting legendary high-performance American V-Twin motorcycles since 1901.
+          </p>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Models</h4>
+          <a href="https://www.indianmotorcycle.com/en-us/scout-bobber/" target="_blank" rel="noopener noreferrer">Scout Bobber</a>
+          <a href="https://www.indianmotorcycle.com/en-us/sport-scout/" target="_blank" rel="noopener noreferrer">Sport Scout</a>
+          <a href="https://www.indianmotorcycle.com/en-us/101-scout/" target="_blank" rel="noopener noreferrer">101 Scout</a>
+          <a href="https://www.indianmotorcycle.com/en-us/scout-bobber-twenty/" target="_blank" rel="noopener noreferrer">Scout Bobber Twenty</a>
+          <a href="https://www.indianmotorcycle.com/en-us/scout-classic/" target="_blank" rel="noopener noreferrer">Scout Classic</a>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Experience</h4>
+          <a href="#lineup">Model Lineup</a>
+          <a href="#rev-simulator">Acoustic Rev Engine</a>
+          <a href="#compare">Specification Matrix</a>
+          <a href="downloads/IndianScoutBobber.zip" download>Download Bundle (ZIP)</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Indian Motorcycle International, LLC. All rights reserved.</span>
+        <div class="legal-links">
+          <a href="https://www.indianmotorcycle.com/en-us/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          <a href="https://www.indianmotorcycle.com/en-us/terms-of-use/" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- 8. INTERACTIVE 3D SHOWCASE ROOM (CANVAS ENGINE)                   -->
+  <!-- ================================================================= -->
+  <div id="showcase-3d-room" class="showcase-room-wrapper" aria-hidden="true">
+    
+    <!-- Floating Return Button -->
+    <div class="showcase-top-bar">
+      <button id="btn-close-3d" class="btn-return-landing" aria-label="Exit 3D Showcase and Return to Overview">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Exit 3D Room</span>
+      </button>
+
+      <!-- Live Telemetry / Frame HUD -->
+      <div class="telemetry-hud">
+        <div class="telemetry-item">
+          <span class="hud-label">FRAME</span>
+          <span id="hud-frame-num" class="hud-value">001 / 180</span>
+        </div>
+        <div class="hud-divider"></div>
+        <div class="telemetry-item">
+          <span class="hud-label">SPEED</span>
+          <span id="hud-speed-val" class="hud-value">0 MPH</span>
+        </div>
+      </div>
+
+      <button id="btn-3d-test-ride" class="btn-book-3d-nav">
+        <span>Book Test Ride</span>
+      </button>
+    </div>
+
+    <!-- Side Milestone Navigation -->
+    <nav class="milestone-nav" aria-label="Showcase Milestones">
+      <div class="milestone-track">
+        <button class="milestone-dot active" data-scene="1" aria-label="Scene 1: Stance"></button>
+        <button class="milestone-dot" data-scene="2" aria-label="Scene 2: Powertrain"></button>
+        <button class="milestone-dot" data-scene="3" aria-label="Scene 3: Dynamics"></button>
+        <button class="milestone-dot" data-scene="4" aria-label="Scene 4: Summary"></button>
+      </div>
+    </nav>
+
+    <!-- Canvas Scroll Engine Container -->
+    <main class="scroll-container" id="experience">
+      <div class="canvas-viewport">
+        <canvas id="bike-canvas"></canvas>
+        <div class="canvas-gradient-overlay"></div>
+        <div class="canvas-vignette"></div>
+      </div>
+
+      <!-- Narrative Storyboard Overlays -->
+      <div class="storyboard-track">
+
+        <!-- SCENE 1: Headlight / Intro Stance -->
+        <section class="scene-panel scene-1" id="scene-1">
+          <div class="glass-card left-align">
+            <div class="card-tag-wrapper">
+              <span class="accent-tag">ICONIC CRAFTSMANSHIP</span>
+              <span class="tag-meta">01 // STANCE</span>
+            </div>
+            <h2 class="scene-heading">INDIAN SCOUT BOBBER</h2>
+            <p class="scene-copy">
+              Blacked-out, stripped-down styling with an unmistakable aggressive front stance, premium LED signature lighting, and iconic chopped fenders.
+            </p>
+            <div class="feature-pills">
+              <span class="pill">Matte Black Trim</span>
+              <span class="pill">LED Projector</span>
+              <span class="pill">Low Stance</span>
+            </div>
+            <div class="scroll-prompt">
+              <span class="scroll-mouse"><span class="scroll-wheel"></span></span>
+              <span class="scroll-text">SCROLL TO SCRUB 3D SEQUENCE</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 2: Ignition & Powertrain -->
+        <section class="scene-panel scene-2" id="scene-2">
+          <div class="glass-card right-align">
+            <div class="card-tag-wrapper">
+              <span class="accent-tag">LIQUID-COOLED V-TWIN</span>
+              <span class="tag-meta">02 // POWERTRAIN</span>
+            </div>
+            <h2 class="scene-heading">105 HORSEPOWER</h2>
+            <p class="scene-copy">
+              Instant throttle response driven by the redesigned 1250cc SpeedPlus engine, engineered for relentless low-end torque and visceral highway cruising.
+            </p>
+            <div class="mini-metrics-row">
+              <div class="metric">
+                <span class="metric-num">1250<small>cc</small></span>
+                <span class="metric-lbl">DISPLACEMENT</span>
+              </div>
+              <div class="metric">
+                <span class="metric-num">82<small>ft-lbs</small></span>
+                <span class="metric-lbl">PEAK TORQUE</span>
+              </div>
+              <div class="metric">
+                <span class="metric-num">6<small>SPD</small></span>
+                <span class="metric-lbl">TRANSMISSION</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 3: Gauges & Acceleration -->
+        <section class="scene-panel scene-3" id="scene-3">
+          <div class="glass-card left-align stats-card">
+            <div class="card-tag-wrapper">
+              <span class="accent-tag">ANALOG PRECISION</span>
+              <span class="tag-meta">03 // DYNAMICS</span>
+            </div>
+            <h2 class="scene-heading">UNRIVALED ACCELERATION</h2>
+            <p class="scene-copy">
+              Balanced chassis geometry tuned for responsive low-speed maneuvering and rock-solid high-speed cornering stability.
+            </p>
+            <div class="stats-grid">
+              <div class="stat-box glow-card">
+                <span class="stat-label">0 – 60 MPH</span>
+                <span class="stat-value">3.7<small class="unit">s</small></span>
+                <span class="stat-sub">Aggressive Launch</span>
+              </div>
+              <div class="stat-box glow-card">
+                <span class="stat-label">TOP SPEED</span>
+                <span class="stat-value">130<small class="unit">MPH</small></span>
+                <span class="stat-sub">Electronically Governed</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 4: Burnout / Summary Quote & Action -->
+        <section class="scene-panel scene-4" id="scene-4">
+          <div class="glass-card center-align hero-cta-card">
+            <div class="card-tag-wrapper center">
+              <span class="accent-tag">THE REVOLUTION</span>
+              <span class="tag-meta">04 // SUMMARY</span>
+            </div>
+
+            <blockquote class="lead-quote">
+              “Strip it down. Turn it up.”
+            </blockquote>
+
+            <div class="specs-bar">
+              <div class="spec-bar-item">
+                <span class="spec-label">SEAT HEIGHT</span>
+                <span class="spec-value">25.6 in <span class="spec-sub">(649 mm)</span></span>
+              </div>
+              <div class="spec-divider"></div>
+              <div class="spec-bar-item">
+                <span class="spec-label">WEIGHT (WET)</span>
+                <span class="spec-value">533 lbs <span class="spec-sub">(242 kg)</span></span>
+              </div>
+              <div class="spec-divider"></div>
+              <div class="spec-bar-item">
+                <span class="spec-label">STARTING MSRP</span>
+                <span class="spec-value highlight-price">$12,999</span>
+              </div>
+            </div>
+
+            <div class="cta-actions">
+              <button id="scene4-btn-configure" class="btn-primary">
+                <span>Launch Configurator</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <button id="scene4-btn-test-ride" class="btn-secondary">
+                <span>Schedule Test Ride</span>
+              </button>
+            </div>
+
+            <p class="disclaimer">MSRP excludes destination, tax, title, and dealer preparation fees.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- 9. CINEMATIC LOADING SCREEN (INTEGRATED FROM INDIAN SCOUT ZIP)    -->
   <!-- ================================================================= -->
   <div id="loader" class="loader-overlay" aria-live="polite">
     <div class="loader-backdrop"></div>
     <div class="loader-content">
+      <!-- Animated Brand Badge -->
       <div class="brand-badge">
-        <span class="badge-dot"></span>
-        <span class="badge-text">HERITAGE & POWER</span>
+        <span class="badge-dot pulse-red"></span>
+        <span class="badge-text">2026 SPEEDPLUS 1250 SERIES</span>
       </div>
-      <h1 class="loader-title">INDIAN SCOUT</h1>
-      <p class="loader-subtitle">PRECISION SCROLLYTELLING EXPERIENCE</p>
+
+      <!-- Main Loader Title & Heritage Subtitle -->
+      <h2 class="loader-title">INDIAN SCOUT</h2>
+      <p class="loader-subtitle" id="loader-status-text">SYNCHRONIZING 3D CANVAS ENGINE</p>
       
+      <!-- Visual Bobber Silhouette / Animation Frame -->
+      <div class="loader-preview-box">
+        <div class="loader-glow-ring"></div>
+        <div class="loader-bike-graphic">
+          <svg width="80" height="48" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 45 C15 36 24 36 24 45 C24 54 15 54 15 45 Z" stroke="#ff2c2c" stroke-width="3" fill="none"/>
+            <circle cx="19.5" cy="45" r="4" fill="#ff2c2c"/>
+            <path d="M75 45 C75 36 84 36 84 45 C84 54 75 54 75 45 Z" stroke="#ff2c2c" stroke-width="3" fill="none"/>
+            <circle cx="79.5" cy="45" r="4" fill="#ff2c2c"/>
+            <path d="M24 45 L40 45 L52 32 L75 45" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M40 45 L46 22 L62 22 L72 32" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M46 22 L40 14 L32 18" stroke="#ff2c2c" stroke-width="3" stroke-linecap="round"/>
+            <path d="M48 26 L60 26 L65 32 L46 32 Z" fill="#ff2c2c" opacity="0.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Telemetry Progress Box -->
       <div class="loader-progress-box">
         <div class="progress-info">
-          <span class="progress-label">SYNCHRONIZING FRAMES</span>
+          <span class="progress-label" id="loader-label">PRELOADING 180 HD FRAMES</span>
           <span id="load-progress" class="progress-value">0%</span>
         </div>
         <div class="progress-bar-track">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
+        <div class="progress-metrics-row">
+          <span class="metric-item" id="loader-frames-loaded">0 / 180 FRAMES</span>
+          <span class="metric-item">60 FPS SCRUBBING READY</span>
+        </div>
       </div>
-      <p class="loader-hint">For best fidelity, use scroll wheel or swipe</p>
+
+      <p class="loader-hint" id="loader-hint-msg">Calibrating interactive scrollytelling shaders and audio acoustics...</p>
     </div>
   </div>
 
   <!-- ================================================================= -->
-  <!-- 2. GLOBAL NAVIGATION & TELEMETRY HUD                             -->
+  <!-- 10. INTERACTIVE MODALS (CUSTOMIZER / TEST RIDE / VIP SIGNUP)      -->
   <!-- ================================================================= -->
-  <header class="top-nav">
-    <div class="nav-brand">
-      <span class="brand-logo-text">INDIAN</span>
-      <span class="model-badge">SCOUT BOBBER</span>
-    </div>
 
-    <!-- Live Telemetry / Frame HUD -->
-    <div class="telemetry-hud">
-      <div class="telemetry-item">
-        <span class="hud-label">FRAME</span>
-        <span id="hud-frame-num" class="hud-value">001 / 180</span>
+  <!-- MODAL 1: BUILD & PRICE CUSTOMIZER -->
+  <div id="modal-customizer" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-container customizer-modal glass-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">FACTORY CONFIGURATOR</span>
+          <h3 class="modal-title">CUSTOMIZE YOUR INDIAN SCOUT</h3>
+        </div>
+        <button class="btn-close-modal" id="btn-close-customizer" aria-label="Close customizer">&times;</button>
       </div>
-      <div class="hud-divider"></div>
-      <div class="telemetry-item">
-        <span class="hud-label">SPEED</span>
-        <span id="hud-speed-val" class="hud-value">0 MPH</span>
-      </div>
-    </div>
 
-    <div class="nav-actions">
-      <a href="#buy" class="nav-cta-btn">Reserve Build</a>
-    </div>
-  </header>
-
-  <!-- Side Milestone Progress Indicator -->
-  <nav class="milestone-nav" aria-label="Story Milestones">
-    <div class="milestone-track">
-      <div id="milestone-indicator" class="milestone-pill"></div>
-      <button class="milestone-dot active" data-scene="1" aria-label="Go to Stance"></button>
-      <button class="milestone-dot" data-scene="2" aria-label="Go to Powertrain"></button>
-      <button class="milestone-dot" data-scene="3" aria-label="Go to Performance"></button>
-      <button class="milestone-dot" data-scene="4" aria-label="Go to Specifications"></button>
-    </div>
-  </nav>
-
-  <!-- ================================================================= -->
-  <!-- 3. STICKY CANVAS & SCROLLYTELLING CONTAINER                       -->
-  <!-- ================================================================= -->
-  <main class="scroll-container" id="experience">
-    <!-- Viewport-pinned Canvas -->
-    <div class="canvas-viewport">
-      <canvas id="bike-canvas"></canvas>
-      <div class="canvas-gradient-overlay"></div>
-      <div class="canvas-vignette"></div>
-    </div>
-
-    <!-- =============================================================== -->
-    <!-- 4. OVERLAY STORYBOARD SCENES (PINNED VIA GSAP)                  -->
-    <!-- =============================================================== -->
-    <div class="storyboard-track">
-
-      <!-- SCENE 1: Headlight / Intro Quality (Frames ~0 - 45) -->
-      <section class="scene-panel scene-1" id="scene-1">
-        <div class="glass-card left-align">
-          <div class="card-tag-wrapper">
-            <span class="accent-tag">ICONIC CRAFTSMANSHIP</span>
-            <span class="tag-meta">01 // STANCE</span>
+      <div class="modal-body customizer-grid">
+        <div class="customizer-preview-col">
+          <div class="customizer-live-viewport">
+            <video class="customizer-video" autoplay loop muted playsinline>
+              <source src="videos/Indian_scout_driving.mp4" type="video/mp4" />
+            </video>
+            <div class="customizer-color-glow" id="customizer-glow"></div>
+            <div class="customizer-active-badge" id="customizer-model-badge">SCOUT BOBBER // 105 HP</div>
           </div>
-          <h2 class="scene-heading">INDIAN SCOUT BOBBER</h2>
-          <p class="scene-copy">
-            Blacked-out, stripped-down styling with an unmistakable aggressive front stance, premium LED signature lighting, and iconic chopped fenders.
-          </p>
-          <div class="feature-pills">
-            <span class="pill">Matte Black Trim</span>
-            <span class="pill">LED Projector</span>
-            <span class="pill">Low Stance</span>
-          </div>
-          <div class="scroll-prompt">
-            <span class="scroll-mouse"><span class="scroll-wheel"></span></span>
-            <span class="scroll-text">SCROLL TO EXPLORE ENGINE</span>
-          </div>
-        </div>
-      </section>
 
-      <!-- SCENE 2: Ignition / Powertrain (Frames ~46 - 90) -->
-      <section class="scene-panel scene-2" id="scene-2">
-        <div class="glass-card right-align">
-          <div class="card-tag-wrapper">
-            <span class="accent-tag">LIQUID-COOLED V-TWIN</span>
-            <span class="tag-meta">02 // POWERTRAIN</span>
-          </div>
-          <h2 class="scene-heading">105 HORSEPOWER</h2>
-          <p class="scene-copy">
-            Instant throttle response driven by the redesigned 1250cc SpeedPlus engine, engineered for relentless low-end torque and visceral highway cruising.
-          </p>
-          <div class="mini-metrics-row">
-            <div class="metric">
-              <span class="metric-num">1250<small>cc</small></span>
-              <span class="metric-lbl">DISPLACEMENT</span>
+          <div class="customizer-specs-summary">
+            <div class="cust-spec">
+              <span>ENGINE</span>
+              <strong>1250cc SpeedPlus</strong>
             </div>
-            <div class="metric">
-              <span class="metric-num">82<small>ft-lbs</small></span>
-              <span class="metric-lbl">PEAK TORQUE</span>
+            <div class="cust-spec">
+              <span>HORSEPOWER</span>
+              <strong>105 HP @ 7250 RPM</strong>
             </div>
-            <div class="metric">
-              <span class="metric-num">6<small>SPD</small></span>
-              <span class="metric-lbl">TRANSMISSION</span>
+            <div class="cust-spec">
+              <span>EST. MSRP</span>
+              <strong class="cust-price-display" id="customizer-total-price">$12,999</strong>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- SCENE 3: Gauges / Speed & Dynamics (Frames ~91 - 135) -->
-      <section class="scene-panel scene-3" id="scene-3">
-        <div class="glass-card left-align stats-card">
-          <div class="card-tag-wrapper">
-            <span class="accent-tag">ANALOG PRECISION</span>
-            <span class="tag-meta">03 // DYNAMICS</span>
+        <div class="customizer-options-col">
+          <!-- Step 1: Model Choice -->
+          <div class="cust-group">
+            <label class="cust-label">1. SELECT BASE MODEL</label>
+            <div class="cust-btn-group">
+              <button class="cust-select-btn active" data-base-price="12999" data-model-name="Scout Bobber">Scout Bobber ($12,999)</button>
+              <button class="cust-select-btn" data-base-price="13499" data-model-name="Sport Scout">Sport Scout ($13,499)</button>
+              <button class="cust-select-btn" data-base-price="16999" data-model-name="101 Scout">101 Scout ($16,999)</button>
+              <button class="cust-select-btn" data-base-price="13999" data-model-name="Scout Bobber Twenty">Bobber Twenty ($13,999)</button>
+            </div>
           </div>
-          <h2 class="scene-heading">UNRIVALED ACCELERATION</h2>
-          <p class="scene-copy">
-            Balanced chassis geometry tuned for responsive low-speed maneuvering and rock-solid high-speed cornering stability.
-          </p>
 
-          <div class="stats-grid">
-            <div class="stat-box glow-card">
-              <span class="stat-label">0 – 60 MPH</span>
-              <span class="stat-value"><span class="counter" data-target="3.7">3.7</span><small class="unit">s</small></span>
-              <span class="stat-sub">Aggressive Launch</span>
+          <!-- Step 2: Factory Color Finish -->
+          <div class="cust-group">
+            <label class="cust-label">2. FACTORY COLOR FINISH</label>
+            <div class="cust-color-row">
+              <button class="cust-color-pill active" style="--c:#151515;" data-color-add="0" data-color-name="Black Metallic">Black Metallic (+$0)</button>
+              <button class="cust-color-pill" style="--c:#5a5a5a;" data-color-add="300" data-color-name="Silver Quartz">Silver Quartz (+$300)</button>
+              <button class="cust-color-pill" style="--c:#701212;" data-color-add="450" data-color-name="Sunset Red Smoke">Sunset Red (+$450)</button>
+              <button class="cust-color-pill" style="--c:#c5a880;" data-color-add="500" data-color-name="Nara Bronze">Nara Bronze (+$500)</button>
             </div>
-            <div class="stat-box glow-card">
-              <span class="stat-label">TOP SPEED</span>
-              <span class="stat-value"><span class="counter" data-target="130">130</span><small class="unit">MPH</small></span>
-              <span class="stat-sub">Electronically Governed</span>
+          </div>
+
+          <!-- Step 3: Performance Exhaust Upgrade -->
+          <div class="cust-group">
+            <label class="cust-label">3. PERFORMANCE EXHAUST UPGRADE</label>
+            <div class="cust-option-radios">
+              <label class="cust-radio-item">
+                <input type="radio" name="cust-exhaust" value="0" checked />
+                <span>Stock Dual Matte Black Exhaust ($0)</span>
+              </label>
+              <label class="cust-radio-item">
+                <input type="radio" name="cust-exhaust" value="899" />
+                <span>Stage 1 2-into-1 Shorty High-Flow Exhaust (+$899)</span>
+              </label>
+              <label class="cust-radio-item">
+                <input type="radio" name="cust-exhaust" value="649" />
+                <span>Performance Slip-On Mufflers with Slash Cut (+$649)</span>
+              </label>
             </div>
+          </div>
+
+          <div class="cust-actions">
+            <button id="cust-btn-submit" class="btn-primary full-width">
+              <span>Lock Configuration & Request Dealer Quote</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
           </div>
         </div>
-      </section>
-
-      <!-- SCENE 4: Burnout / Quote, Specs & CTA (Frames ~136 - 180) -->
-      <section class="scene-panel scene-4" id="scene-4">
-        <div class="glass-card center-align hero-cta-card">
-          <div class="card-tag-wrapper center">
-            <span class="accent-tag">THE REVOLUTION</span>
-            <span class="tag-meta">04 // SUMMARY</span>
-          </div>
-
-          <blockquote class="lead-quote">
-            “Strip it down. Turn it up.”
-          </blockquote>
-
-          <div class="specs-bar">
-            <div class="spec-bar-item">
-              <span class="spec-label">SEAT HEIGHT</span>
-              <span class="spec-value">25.6 in <span class="spec-sub">(649 mm)</span></span>
-            </div>
-            <div class="spec-divider"></div>
-            <div class="spec-bar-item">
-              <span class="spec-label">WEIGHT (WET)</span>
-              <span class="spec-value">533 lbs <span class="spec-sub">(242 kg)</span></span>
-            </div>
-            <div class="spec-divider"></div>
-            <div class="spec-bar-item">
-              <span class="spec-label">STARTING MSRP</span>
-              <span class="spec-value highlight-price">$12,999</span>
-            </div>
-          </div>
-
-          <div class="cta-actions">
-            <a href="#order" class="btn-primary">
-              <span>Order Custom Build</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="#test-ride" class="btn-secondary">
-              <span>Book Dealer Test Ride</span>
-            </a>
-          </div>
-
-          <p class="disclaimer">MSRP excludes destination, tax, title, and dealer preparation fees.</p>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <!-- Global Footer -->
-  <footer class="experience-footer">
-    <div class="footer-content">
-      <span>© 2026 Indian Motorcycle. Interactive Experience by Canvas Scrollytelling Engine.</span>
-      <div class="footer-links">
-        <a href="#specs">Full Specs</a>
-        <a href="#dealers">Locate Dealer</a>
-        <a href="#legal">Privacy & Legal</a>
       </div>
     </div>
-  </footer>
+  </div>
+
+  <!-- MODAL 2: SCHEDULE TEST RIDE / DEALER LOCATOR -->
+  <div id="modal-test-ride" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-container test-ride-modal glass-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">AUTHORIZED TEST RIDE</span>
+          <h3 class="modal-title">SCHEDULE YOUR RIDE EXPERIENCE</h3>
+        </div>
+        <button class="btn-close-modal" id="btn-close-test-ride" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="form-test-ride" class="modal-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>PREFERRED MODEL</label>
+            <select id="ride-model" class="form-input">
+              <option value="Scout Bobber">Indian Scout Bobber (1250cc)</option>
+              <option value="Sport Scout">Sport Scout (1250cc)</option>
+              <option value="101 Scout">101 Scout High-Output (111 HP)</option>
+              <option value="Scout Bobber Twenty">Scout Bobber Twenty (Ape Hangers)</option>
+              <option value="Scout Classic">Scout Classic Cruiser</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>YOUR ZIP / POSTAL CODE</label>
+            <input type="text" id="ride-zip" class="form-input" placeholder="e.g. 90210" required />
+          </div>
+
+          <div class="form-group">
+            <label>FULL NAME</label>
+            <input type="text" id="ride-name" class="form-input" placeholder="First and Last Name" required />
+          </div>
+
+          <div class="form-group">
+            <label>EMAIL ADDRESS</label>
+            <input type="email" id="ride-email" class="form-input" placeholder="rider@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label>PHONE NUMBER</label>
+            <input type="tel" id="ride-phone" class="form-input" placeholder="(555) 000-0000" required />
+          </div>
+
+          <div class="form-group">
+            <label>PREFERRED DATE</label>
+            <input type="date" id="ride-date" class="form-input" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary full-width mt-4">
+          <span>Confirm Test Ride Reservation</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: VIP EMAIL SIGNUP -->
+  <div id="modal-vip-signup" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-container vip-modal glass-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">INSIDER ACCESS</span>
+          <h3 class="modal-title">JOIN THE INDIAN SCOUT VIP CLUB</h3>
+        </div>
+        <button class="btn-close-modal" id="btn-close-vip" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="vip-modal-body">
+        <p class="vip-desc">
+          Receive exclusive early invites to demo tours, limited-edition factory custom motorcycle drops, and VIP owner events.
+        </p>
+
+        <form id="form-vip-signup" class="vip-form">
+          <div class="form-group">
+            <label>EMAIL ADDRESS</label>
+            <input type="email" id="vip-email" class="form-input" placeholder="Enter your email" required />
+          </div>
+          <button type="submit" class="btn-primary full-width mt-2">
+            <span>Unlock VIP Insider Status</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Application Logic -->
   <script src="script.js"></script>
