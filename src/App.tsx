@@ -21,7 +21,7 @@ export default function App() {
   const [isDealerModalOpen, setIsDealerModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
-  // Model Cards matching the screenshot layout
+  // Model Cards matching the user's design reference
   const heroCards = [
     {
       id: 'scout-bobber-sixty',
@@ -31,7 +31,7 @@ export default function App() {
       collection: 'HERITAGE COLLECTION',
       hp: '78',
       torque: '65',
-      modelData: MOTORCYCLE_LINEUP[0],
+      modelData: MOTORCYCLE_LINEUP[1] || MOTORCYCLE_LINEUP[0],
     },
     {
       id: 'scout-bobber-twenty',
@@ -41,7 +41,7 @@ export default function App() {
       collection: 'HERITAGE COLLECTION',
       hp: '105',
       torque: '82',
-      modelData: MOTORCYCLE_LINEUP[1] || MOTORCYCLE_LINEUP[0],
+      modelData: MOTORCYCLE_LINEUP[2] || MOTORCYCLE_LINEUP[0],
     },
     {
       id: 'scout-rogue',
@@ -62,7 +62,18 @@ export default function App() {
   const handleHeroCardClick = (card: typeof heroCards[0]) => {
     setActiveHeroCardId(card.id);
     setSelectedModel(card.modelData);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const handleNavigateToLineup = () => {
+    const el = document.getElementById('lineup');
+    if (el) {
+      (window as any).__isNavigatingScroll = true;
+      el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        (window as any).__isNavigatingScroll = false;
+      }, 1000);
+    }
   };
 
   const handleOpenCustomizer = (model: MotorcycleModel) => {
@@ -77,11 +88,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#f5f5f5] flex flex-col font-primary selection:bg-[#ff2c2c] selection:text-black">
-      {/* 1. Official Header with Variation Preview & Navigation */}
+      {/* 1. Official Header with Variation Preview & Auto-hide on scroll */}
       <Header
         onOpenDealerModal={() => setIsDealerModalOpen(true)}
         onOpenEmailModal={() => setIsEmailModalOpen(true)}
         onOpenCartModal={() => setIsEmailModalOpen(true)}
+        onNavigateToLineup={handleNavigateToLineup}
         onSelectModel={(id) => {
           const m = MOTORCYCLE_LINEUP.find((item) => item.id === id);
           if (m) {
@@ -92,8 +104,8 @@ export default function App() {
         }}
       />
 
-      {/* 2. Hero Section: Cinematic Scroll-Scrubbed Zooming Hero Card */}
-      <div id="hero" className="relative w-full bg-[#0a0a0a]">
+      {/* 2. Hero Section: Cinematic Scroll-Scrubbed Zooming Hero Card with Storyboard Overlays */}
+      <div id="hero" className="relative w-full bg-[#0a0a0a] pt-12 md:pt-0">
         <HeroScrub
           frameCount={180}
           frameUrl={(i) =>
@@ -106,10 +118,7 @@ export default function App() {
           modelName={activeCardData.name}
           hp={activeCardData.hp}
           torque={activeCardData.torque}
-          onCardClick={() => {
-            const lineupEl = document.getElementById('lineup');
-            lineupEl?.scrollIntoView({ behavior: 'smooth' });
-          }}
+          onCardClick={handleNavigateToLineup}
         />
 
         {/* 3. Bottom Hero Cards Row (Directly below Hero, strictly matching screenshot layout) */}
@@ -162,7 +171,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* 4. Official Lineup Showcase */}
+      {/* 4. Official Lineup Showcase with Transparent WebP Cutouts & Dual-Slide Transitions */}
       <LineupSection
         selectedModelId={selectedModel?.id}
         onOpenCustomizer={handleOpenCustomizer}
@@ -192,13 +201,13 @@ export default function App() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={() => handleOpenCustomizer(selectedModel || MOTORCYCLE_LINEUP[0])}
-              className="bg-black hover:bg-white hover:text-black text-white px-6 py-3 rounded-sm text-xs font-black uppercase tracking-wider transition-all shadow-xl active:scale-95"
+              className="bg-black hover:bg-white hover:text-black text-white px-6 py-3 rounded-sm text-xs font-black uppercase tracking-wider transition-all shadow-xl active:scale-95 cursor-pointer"
             >
               LAUNCH CONFIGURATOR
             </button>
             <button
               onClick={() => handleOpenTestRide(selectedModel || undefined)}
-              className="border-2 border-black hover:bg-black hover:text-white text-black px-6 py-3 rounded-sm text-xs font-black uppercase tracking-wider transition-all active:scale-95"
+              className="border-2 border-black hover:bg-black hover:text-white text-black px-6 py-3 rounded-sm text-xs font-black uppercase tracking-wider transition-all active:scale-95 cursor-pointer"
             >
               FIND LOCAL INVENTORY
             </button>

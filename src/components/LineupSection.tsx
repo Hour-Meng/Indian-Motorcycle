@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MotorcycleModel, MOTORCYCLE_LINEUP } from '../data/motorcycles';
-import { ChevronLeft, ChevronRight, Check, Sliders, ArrowRight, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, Sliders, ArrowRight } from 'lucide-react';
 
 interface LineupSectionProps {
   selectedModelId?: string;
@@ -11,49 +11,67 @@ interface LineupSectionProps {
 export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRide }: LineupSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const animTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const categories = ['ALL', 'SCOUT BOBBER', '125TH ANNIV.', 'CRUISER'];
+  const categories = ['ALL', 'SCOUT BOBBER', '125TH ANNIV.'];
 
   const filteredLineup = activeCategory === 'ALL'
     ? MOTORCYCLE_LINEUP
     : MOTORCYCLE_LINEUP.filter(m => m.category === activeCategory);
 
-  // Sync if an external modelId is selected via search/nav
+  // Sync if an external modelId is selected via search/nav/card
   useEffect(() => {
     if (selectedModelId) {
       const idx = filteredLineup.findIndex(m => m.id === selectedModelId);
-      if (idx !== -1) {
-        setCurrentIndex(idx);
-        setSelectedColorIndex(0);
+      if (idx !== -1 && idx !== currentIndex) {
+        goToSlide(idx, idx > currentIndex ? 'next' : 'prev');
       }
     }
   }, [selectedModelId, filteredLineup]);
 
-  const currentModel = filteredLineup[currentIndex] || MOTORCYCLE_LINEUP[0];
+  const goToSlide = (newIndex: number, dir: 'next' | 'prev') => {
+    if (newIndex === currentIndex || isAnimating) return;
+    if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
+
+    setPrevIndex(currentIndex);
+    setCurrentIndex(newIndex);
+    setDirection(dir);
+    setSelectedColorIndex(0);
+    setIsAnimating(true);
+
+    animTimeoutRef.current = setTimeout(() => {
+      setIsAnimating(false);
+      setPrevIndex(null);
+    }, 480);
+  };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % filteredLineup.length);
-    setSelectedColorIndex(0);
+    const nextIdx = (currentIndex + 1) % filteredLineup.length;
+    goToSlide(nextIdx, 'next');
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + filteredLineup.length) % filteredLineup.length);
-    setSelectedColorIndex(0);
+    const prevIdx = (currentIndex - 1 + filteredLineup.length) % filteredLineup.length;
+    goToSlide(prevIdx, 'prev');
   };
 
   const handleCategorySelect = (cat: string) => {
     setActiveCategory(cat);
-    setCurrentIndex(0);
-    setSelectedColorIndex(0);
+    goToSlide(0, 'next');
   };
 
+  const currentModel = filteredLineup[currentIndex] || MOTORCYCLE_LINEUP[0];
+  const prevModel = prevIndex !== null ? (filteredLineup[prevIndex] || null) : null;
   const currentColor = currentModel.colors[selectedColorIndex] || currentModel.colors[0];
 
   return (
     <section id="lineup" className="relative w-full bg-[#0a0a0a] text-[#f5f5f5] pt-16 pb-12 overflow-hidden border-t border-white/5">
       {/* Section Header */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row md:items-end justify-between border-b border-white/5 pb-6 mb-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row md:items-end justify-between border-b border-white/5 pb-6 mb-4">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#ff2c2c]">
             Heritage & Innovation Lineup
@@ -69,7 +87,7 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
             <button
               key={cat}
               onClick={() => handleCategorySelect(cat)}
-              className={`pb-1 transition-all relative ${
+              className={`pb-1 transition-all relative cursor-pointer ${
                 activeCategory === cat
                   ? 'text-[#ff2c2c] font-bold after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[#ff2c2c]'
                   : 'text-white/50 hover:text-white'
@@ -81,49 +99,101 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
         </div>
       </div>
 
-      {/* Main Motorcycle Display Stage */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 relative min-h-[540px] md:min-h-[620px] flex flex-col items-center justify-center">
-        {/* Giant Background Typography strictly reflecting official site / editorial showcase */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none z-0 overflow-hidden text-center opacity-40">
-          <h1
-            className="text-white font-black uppercase tracking-tight leading-none transition-all duration-500 font-display"
-            style={{
-              fontSize: 'clamp(3rem, 11vw, 9.5rem)',
-              lineHeight: 0.85,
-              letterSpacing: '-0.04em',
-            }}
+      {/* Main Motorcycle Carousel Stage (Dual Slide Track) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative min-h-[460px] sm:min-h-[520px] md:min-h-[560px] flex items-center justify-center overflow-hidden">
+        
+        {/* OUTGOING SLIDE (Slides out to Left on Next, or to Right on Prev) */}
+        {prevModel && isAnimating && (
+          <div
+            key={`prev-${prevModel.id}`}
+            className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              direction === 'next'
+                ? '-translate-x-full opacity-0'
+                : 'translate-x-full opacity-0'
+            }`}
           >
-            {currentModel.bgTitle}
-          </h1>
-          <h2
-            className="text-[#ff2c2c] font-extrabold uppercase tracking-widest mt-2 transition-all duration-500 font-display"
-            style={{
-              fontSize: 'clamp(1.1rem, 3.2vw, 3rem)',
-              letterSpacing: '0.1em',
-            }}
-          >
-            {currentModel.bgSubtitle}
-          </h2>
-        </div>
+            {/* Background Word (Slides out with motorcycle) */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none z-0 px-4 text-center opacity-30">
+              <h1
+                className="text-white font-black uppercase tracking-tight leading-none font-display w-full max-w-5xl mx-auto truncate"
+                style={{ fontSize: 'clamp(2.5rem, 8.5vw, 7.5rem)', lineHeight: 0.9, letterSpacing: '-0.03em' }}
+              >
+                {prevModel.bgTitle}
+              </h1>
+              <h2
+                className="text-[#ff2c2c] font-extrabold uppercase tracking-widest mt-2 font-display w-full max-w-4xl mx-auto truncate"
+                style={{ fontSize: 'clamp(0.85rem, 2.4vw, 2rem)', letterSpacing: '0.12em' }}
+              >
+                {prevModel.bgSubtitle}
+              </h2>
+            </div>
 
-        {/* Center Motorcycle Cutout */}
-        <div className="relative z-10 w-full max-w-4xl flex flex-col items-center justify-center my-4">
-          <div className="relative w-full aspect-[16/10] max-h-[420px] flex items-center justify-center group">
-            <img
-              src={currentColor.imageUrl}
-              alt={`${currentModel.name} - ${currentColor.name}`}
-              className="w-full h-full object-contain max-h-[380px] filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] transition-all duration-700 transform group-hover:scale-105"
-            />
-            {/* Studio Floor Red Accent Glow & Shadow */}
-            <div className="absolute -bottom-6 w-3/4 h-10 bg-[#ff2c2c]/10 blur-2xl rounded-full pointer-events-none" />
-            <div className="absolute -bottom-3 w-2/3 h-6 bg-black/80 blur-xl rounded-full pointer-events-none" />
+            {/* Outgoing Motorcycle Cutout */}
+            <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-center my-2">
+              <div className="relative w-full aspect-[16/9] max-h-[360px] md:max-h-[420px] flex items-center justify-center">
+                <img
+                  src={prevModel.colors[0].imageUrl}
+                  alt={prevModel.name}
+                  className="w-full h-full object-contain filter drop-shadow-[0_25px_40px_rgba(0,0,0,0.95)]"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* INCOMING / CURRENT SLIDE (Slides in from Right on Next, or from Left on Prev) */}
+        <div
+          key={`current-${currentModel.id}`}
+          className={`w-full flex flex-col items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isAnimating
+              ? direction === 'next'
+                ? 'animate-slideInFromRight'
+                : 'animate-slideInFromLeft'
+              : 'translate-x-0 opacity-100'
+          }`}
+        >
+          {/* Background Word (Slides in with motorcycle) */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none z-0 px-4 text-center opacity-30 sm:opacity-35">
+            <h1
+              className="text-white font-black uppercase tracking-tight leading-none font-display w-full max-w-5xl mx-auto truncate"
+              style={{
+                fontSize: 'clamp(2.5rem, 8.5vw, 7.5rem)',
+                lineHeight: 0.9,
+                letterSpacing: '-0.03em',
+              }}
+            >
+              {currentModel.bgTitle}
+            </h1>
+            <h2
+              className="text-[#ff2c2c] font-extrabold uppercase tracking-widest mt-2 font-display w-full max-w-4xl mx-auto truncate"
+              style={{
+                fontSize: 'clamp(0.85rem, 2.4vw, 2rem)',
+                letterSpacing: '0.12em',
+              }}
+            >
+              {currentModel.bgSubtitle}
+            </h2>
           </div>
 
-          {/* Model Price Pill */}
-          <div className="mt-2 text-center z-20">
-            <span className="bg-[#161616] border border-white/10 text-white text-[11px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-sm shadow-md">
-              STARTING AT <span className="text-[#ff2c2c]">{currentModel.price}</span> MSRP*
-            </span>
+          {/* Center Transparent Motorcycle Cutout */}
+          <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-center my-2 pointer-events-none">
+            <div className="relative w-full aspect-[16/9] max-h-[360px] md:max-h-[420px] flex items-center justify-center group pointer-events-auto">
+              <img
+                src={currentColor.imageUrl}
+                alt={`${currentModel.name} - ${currentColor.name}`}
+                className="w-full h-full object-contain filter drop-shadow-[0_25px_40px_rgba(0,0,0,0.95)] transition-transform duration-500 transform group-hover:scale-105"
+              />
+              {/* Studio Floor Red Accent Glow & Shadow */}
+              <div className="absolute -bottom-4 w-3/4 h-12 bg-[#ff2c2c]/15 blur-2xl rounded-full pointer-events-none" />
+              <div className="absolute -bottom-2 w-2/3 h-8 bg-black/90 blur-xl rounded-full pointer-events-none" />
+            </div>
+
+            {/* Model Price Pill */}
+            <div className="mt-1 text-center z-20 pointer-events-auto">
+              <span className="bg-[#161616]/90 border border-white/10 text-white text-[11px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-sm shadow-xl backdrop-blur-md">
+                STARTING AT <span className="text-[#ff2c2c]">{currentModel.price}</span> MSRP*
+              </span>
+            </div>
           </div>
         </div>
 
@@ -131,21 +201,21 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
         <button
           onClick={handlePrev}
           aria-label="Previous motorcycle"
-          className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 rounded-full border border-white/10 bg-[#161616]/90 hover:border-[#ff2c2c] text-white hover:text-[#ff2c2c] shadow-2xl flex items-center justify-center transition-all hover:scale-105 focus:outline-none backdrop-blur-sm"
+          className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 rounded-full border border-white/10 bg-[#161616]/90 hover:border-[#ff2c2c] text-white hover:text-[#ff2c2c] shadow-2xl flex items-center justify-center transition-all hover:scale-105 focus:outline-none backdrop-blur-sm cursor-pointer active:scale-95"
         >
           <ChevronLeft className="w-6 h-6 stroke-[2]" />
         </button>
         <button
           onClick={handleNext}
           aria-label="Next motorcycle"
-          className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 rounded-full border border-white/10 bg-[#161616]/90 hover:border-[#ff2c2c] text-white hover:text-[#ff2c2c] shadow-2xl flex items-center justify-center transition-all hover:scale-105 focus:outline-none backdrop-blur-sm"
+          className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 md:w-13 md:h-13 rounded-full border border-white/10 bg-[#161616]/90 hover:border-[#ff2c2c] text-white hover:text-[#ff2c2c] shadow-2xl flex items-center justify-center transition-all hover:scale-105 focus:outline-none backdrop-blur-sm cursor-pointer active:scale-95"
         >
           <ChevronRight className="w-6 h-6 stroke-[2]" />
         </button>
       </div>
 
       {/* Model Information & Color Swatches & Action Bar */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 mt-6 pt-6 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 mt-4 pt-6 border-t border-white/5">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Column 1: Model Title & Short Bio (4 cols) */}
           <div className="lg:col-span-4">
@@ -174,7 +244,7 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
                   key={c.name}
                   onClick={() => setSelectedColorIndex(i)}
                   title={c.name}
-                  className={`w-7 h-7 rounded-full transition-all flex items-center justify-center relative ${
+                  className={`w-7 h-7 rounded-full transition-all flex items-center justify-center relative cursor-pointer ${
                     selectedColorIndex === i
                       ? 'ring-2 ring-offset-2 ring-offset-[#0a0a0a] ring-[#ff2c2c] scale-110'
                       : 'opacity-70 hover:opacity-100 hover:scale-105 ring-1 ring-white/20'
@@ -193,14 +263,14 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
           <div className="lg:col-span-4 flex flex-wrap sm:flex-nowrap items-center justify-start lg:justify-end gap-3">
             <button
               onClick={() => onOpenCustomizer(currentModel)}
-              className="w-full sm:w-auto bg-[#ff2c2c] hover:bg-white text-black px-5 py-3 rounded-sm text-[11px] font-black uppercase tracking-wider shadow-lg transition-all flex items-center justify-center space-x-2"
+              className="w-full sm:w-auto bg-[#ff2c2c] hover:bg-white text-black px-5 py-3 rounded-sm text-[11px] font-black uppercase tracking-wider shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer active:scale-95"
             >
               <Sliders className="w-3.5 h-3.5" />
               <span>Build & Price</span>
             </button>
             <button
               onClick={() => onOpenTestRide(currentModel)}
-              className="w-full sm:w-auto border border-white/20 hover:border-[#ff2c2c] hover:text-[#ff2c2c] bg-[#161616] text-white px-5 py-3 rounded-sm text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center space-x-1.5"
+              className="w-full sm:w-auto border border-white/20 hover:border-[#ff2c2c] hover:text-[#ff2c2c] bg-[#161616] text-white px-5 py-3 rounded-sm text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center space-x-1.5 cursor-pointer active:scale-95"
             >
               <span>Schedule Ride</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -237,8 +307,8 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
         </div>
       </div>
 
-      {/* Editorial Bottom Horizontal Carousel Quick-Picker matching Design HTML */}
-      <div className="mt-12 pt-6 border-t border-white/5 bg-[#0d0d0d]">
+      {/* Editorial Bottom Horizontal Carousel Quick-Picker */}
+      <div className="mt-10 pt-6 border-t border-white/5 bg-[#0d0d0d]">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 mb-3 flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
             Quick Select Model
@@ -254,21 +324,18 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
             return (
               <div
                 key={bike.id}
-                onClick={() => {
-                  setCurrentIndex(idx);
-                  setSelectedColorIndex(0);
-                }}
-                className={`min-w-[280px] cursor-pointer bg-[#161616] border rounded-lg p-3.5 flex items-center gap-3.5 transition-all ${
+                onClick={() => goToSlide(idx, idx > currentIndex ? 'next' : 'prev')}
+                className={`min-w-[260px] cursor-pointer bg-[#161616] border rounded-lg p-3 flex items-center gap-3 transition-all ${
                   isSelected
-                    ? 'border-[#ff2c2c] shadow-[0_0_30px_rgba(255,44,44,0.15)] ring-1 ring-[#ff2c2c]/40'
-                    : 'border-white/5 hover:border-[#ff2c2c]/30 hover:bg-[#1a1a1a]'
+                    ? 'border-[#ff2c2c] shadow-[0_0_30px_rgba(255,44,44,0.18)] ring-1 ring-[#ff2c2c]'
+                    : 'border-white/5 hover:border-[#ff2c2c]/40 hover:bg-[#1a1a1a]'
                 }`}
               >
-                <div className="w-20 h-14 bg-[#222] rounded flex items-center justify-center overflow-hidden shrink-0 border border-white/5">
+                <div className="w-18 h-12 bg-[#202020] rounded flex items-center justify-center overflow-hidden shrink-0 border border-white/5 p-1">
                   <img
                     src={bike.colors[0].imageUrl}
                     alt={bike.name}
-                    className="w-full h-full object-contain p-1 filter drop-shadow"
+                    className="w-full h-full object-contain filter drop-shadow"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -278,7 +345,7 @@ export function LineupSection({ selectedModelId, onOpenCustomizer, onOpenTestRid
                   <p className="font-bold uppercase italic text-xs truncate text-white">
                     {bike.name}
                   </p>
-                  <p className="text-[10px] text-white/40 font-mono">
+                  <p className="text-[10px] text-white/50 font-mono">
                     Starting at {bike.price}
                   </p>
                 </div>

@@ -101,3 +101,36 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #ff2c2c;
 }
+
+/* Model Slide Transitions */
+@keyframes slideInFromRight {
+  0% {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInFromRight {
+  animation: slideInFromRight 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-slideInFromLeft {
+  animation: slideInFromLeft 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}

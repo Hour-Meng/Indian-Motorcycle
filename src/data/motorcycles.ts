@@ -42,7 +42,7 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
     weight: '522 lbs (237 kg)',
     seatHeight: '25.6 in (649 mm)',
     fuelCapacity: '3.4 gal (13 L)',
-    description: 'Low-slung, blacked-out with a mean stance. The Indian Scout Bobber blends iconic American heritage with raw, modern muscle, chopped bobber fenders, and bar-end mirrors.',
+    description: 'Low-slung, blacked-out with a mean stance. The Indian Scout Bobber blends iconic American heritage with raw modern muscle, chopped bobber fenders, and bar-end mirrors.',
     features: [
       'Aggressive Chopped Bobber Fenders',
       'Side-Mounted License Plate & Bar-End Mirrors',
@@ -54,22 +54,54 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
       {
         name: 'Black Metallic',
         hex: '#111111',
-        imageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80'
+        imageUrl: 'images/Indian-Scout.webp'
       },
       {
         name: 'Silver Quartz Smoke',
         hex: '#7e8387',
-        imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80'
+        imageUrl: 'images/Indian-Scout.webp'
       },
       {
         name: 'Sunset Red Smoke',
         hex: '#78191f',
-        imageUrl: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80'
+        imageUrl: 'images/Indian-Scout.webp'
+      }
+    ]
+  },
+  {
+    id: 'scout-sixty-bobber',
+    category: 'SCOUT BOBBER',
+    name: 'Scout Bobber Sixty',
+    subtitle: 'PURE RAW BOBBER ATTITUDE & NIMBLE AGILITY',
+    bgTitle: 'SCOUT SIXTY',
+    bgSubtitle: 'LIGHTWEIGHT AGGRESSIVE CRUISER',
+    price: '$10,749',
+    priceNum: 10749,
+    engine: 'Liquid-Cooled 999cc SpeedPlus V-Twin',
+    displacement: '999 cc (60 cu in)',
+    horsepower: '78 HP',
+    torque: '65 ft-lbs @ 5800 RPM',
+    weight: '510 lbs (231 kg)',
+    seatHeight: '25.6 in (649 mm)',
+    fuelCapacity: '3.4 gal (13 L)',
+    description: 'Stripped down to the bare essentials. Accessible, lightweight, and engineered with responsive liquid-cooled power for pure city carving and open highway throttle.',
+    features: [
+      'Stripped-Down Minimalist Chassis',
+      'Blacked-Out Engine & Primary Covers',
+      'Low 25.6-inch Center of Gravity',
+      'Lightweight Cast Aluminum Frame',
+      'Solo Bobber Seat'
+    ],
+    colors: [
+      {
+        name: 'Classic Black',
+        hex: '#161616',
+        imageUrl: 'images/scout-sixty-bobber.webp'
       },
       {
-        name: 'Ghost White Metallic',
-        hex: '#e2e5e8',
-        imageUrl: 'https://images.unsplash.com/photo-1558981420-87aa9dad1c89?auto=format&fit=crop&w=1200&q=80'
+        name: 'Titanium Metallic',
+        hex: '#5c6065',
+        imageUrl: 'images/scout-sixty-bobber.webp'
       }
     ]
   },
@@ -80,8 +112,8 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
     subtitle: 'OLD-SCHOOL BOBBER ATTITUDE & APE HANGERS',
     bgTitle: 'SCOUT TWENTY',
     bgSubtitle: 'SPOKED WHEELS & HERITAGE DETAIL',
-    price: '$13,699',
-    priceNum: 13699,
+    price: '$13,249',
+    priceNum: 13249,
     engine: 'Liquid-Cooled 1250cc SpeedPlus V-Twin',
     displacement: '1250 cc (76.3 cu in)',
     horsepower: '105 HP',
@@ -99,19 +131,56 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
     ],
     colors: [
       {
-        name: 'Stealth Gray',
-        hex: '#3f4448',
-        imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80'
+        name: 'Military Grey',
+        hex: '#4a5054',
+        imageUrl: 'images/scout-bobber-twenty.webp'
       },
       {
-        name: 'Indian Motorcycle Red',
-        hex: '#861219',
-        imageUrl: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80'
+        name: 'Stealth Gray',
+        hex: '#3f4448',
+        imageUrl: 'images/scout-bobber-twenty.webp'
       },
       {
         name: 'Black Smoke',
         hex: '#1c1c1c',
-        imageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80'
+        imageUrl: 'images/scout-bobber-twenty.webp'
+      }
+    ]
+  },
+  {
+    id: 'sport-scout',
+    category: 'SCOUT BOBBER',
+    name: 'Sport Scout',
+    subtitle: 'AGGRESSIVE CLUB-STYLE PERFORMANCE CRUISER',
+    bgTitle: 'SPORT SCOUT',
+    bgSubtitle: 'QUARTER FAIRING & MOTO BARS',
+    price: '$13,499',
+    priceNum: 13499,
+    engine: 'Liquid-Cooled SpeedPlus 1250cc V-Twin',
+    displacement: '1250 cc (76.3 cu in)',
+    horsepower: '105 HP',
+    torque: '82 ft-lbs @ 6300 RPM',
+    weight: '526 lbs (238 kg)',
+    seatHeight: '25.7 in (654 mm)',
+    fuelCapacity: '3.4 gal (13 L)',
+    description: 'Born with aggressive West Coast club style. Equipped with a sleek quarter fairing, 6-inch moto handlebar risers, sport-style seat, and cast 19-inch front wheel.',
+    features: [
+      'Aerodynamic Quarter Fairing',
+      '6-inch Moto-Style Handlebar Risers',
+      'Sport-Contoured Solo Saddle with Back Support',
+      '19-inch Lightweight Front Wheel',
+      'Dual Front Disc Brake Ready'
+    ],
+    colors: [
+      {
+        name: 'Black Metallic',
+        hex: '#121212',
+        imageUrl: 'images/sport-scout.webp'
+      },
+      {
+        name: 'Ghost White Smoke',
+        hex: '#dadfe3',
+        imageUrl: 'images/sport-scout.webp'
       }
     ]
   },
@@ -143,12 +212,12 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
       {
         name: 'Sunset Red Metallic with 101 Graphics',
         hex: '#78191f',
-        imageUrl: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80'
+        imageUrl: 'images/101-scout.webp'
       },
       {
         name: 'Ghost White Metallic with Graphics',
         hex: '#e2e5e8',
-        imageUrl: 'https://images.unsplash.com/photo-1558981420-87aa9dad1c89?auto=format&fit=crop&w=1200&q=80'
+        imageUrl: 'images/101-scout.webp'
       }
     ]
   },
@@ -178,83 +247,9 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
     ],
     colors: [
       {
-        name: '125th Anniversary Crimson & Gold',
-        hex: '#691218',
-        imageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80'
-      }
-    ]
-  },
-  {
-    id: 'scout-sixty-bobber',
-    category: 'SCOUT BOBBER',
-    name: 'Scout Sixty Bobber',
-    subtitle: 'ACCESSIBLE ENTRY TO AUTHENTIC BOBBER ATTITUDE',
-    bgTitle: 'SCOUT SIXTY',
-    bgSubtitle: '999CC LIQUID-COOLED V-TWIN',
-    price: '$10,749',
-    priceNum: 10749,
-    engine: 'Liquid-Cooled 999cc V-Twin',
-    displacement: '999 cc (60 cu in)',
-    horsepower: '78 HP',
-    torque: '65 ft-lbs @ 5800 RPM',
-    weight: '516 lbs (234 kg)',
-    seatHeight: '25.6 in (649 mm)',
-    fuelCapacity: '3.4 gal (13 L)',
-    description: 'Lightweight agility meets raw stripped-down bobber styling. The Scout Sixty Bobber delivers responsive power, low seat height, and accessible customizability.',
-    features: [
-      'Accessible 999cc Liquid-Cooled V-Twin',
-      'Ultra-Low 25.6 in Seat Height',
-      '5-Speed Constant Mesh Transmission',
-      'Stripped Bobber Fenders & Solo Seat',
-      'Fully Blacked-Out Engine Finish'
-    ],
-    colors: [
-      {
-        name: 'Black Metallic',
-        hex: '#151515',
-        imageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80'
-      },
-      {
-        name: 'Ruby Smoke',
-        hex: '#5c1016',
-        imageUrl: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80'
-      }
-    ]
-  },
-  {
-    id: 'sport-scout',
-    category: 'CRUISER',
-    name: 'Sport Scout',
-    subtitle: 'AGGRESSIVE CLUB-STYLE PERFORMANCE CRUISER',
-    bgTitle: 'SPORT SCOUT',
-    bgSubtitle: 'QUARTER FAIRING & MOTO BARS',
-    price: '$13,499',
-    priceNum: 13499,
-    engine: 'SpeedPlus 1250cc V-Twin',
-    displacement: '1250 cc (76.3 cu in)',
-    horsepower: '105 HP',
-    torque: '82 ft-lbs @ 6300 RPM',
-    weight: '526 lbs (239 kg)',
-    seatHeight: '25.7 in (654 mm)',
-    fuelCapacity: '3.4 gal (13 L)',
-    description: 'Modern West-Coast style performance cruiser with sleek quarter fairing, moto handlebars with 6-inch risers, and sport-style seat for spirited corner carving.',
-    features: [
-      'Aerodynamic Color-Matched Quarter Fairing',
-      'Moto Style Handlebars with 6-inch Risers',
-      'Sport Comfort Solo Seat with Bolster',
-      '19-inch Front Sport Wheel',
-      'High Output SpeedPlus 1250cc Engine'
-    ],
-    colors: [
-      {
-        name: 'Black Smoke',
-        hex: '#1f1f1f',
-        imageUrl: 'https://images.unsplash.com/photo-1558981420-87aa9dad1c89?auto=format&fit=crop&w=1200&q=80'
-      },
-      {
-        name: 'Storm Blue',
-        hex: '#23384f',
-        imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80'
+        name: 'Anniversary Crimson Metallic',
+        hex: '#690e15',
+        imageUrl: 'images/Chief-Vintage-125th.webp'
       }
     ]
   }
