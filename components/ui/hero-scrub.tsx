@@ -297,7 +297,7 @@ export function HeroScrub({
     >
       <div
         ref={stickyRef}
-        className="sticky top-0 flex h-[100svh] w-full flex-col items-center justify-center overflow-hidden"
+        className="sticky top-0 flex h-[100svh] w-full flex-col items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-20 pb-4"
       >
         <div ref={bgRef} aria-hidden className="absolute inset-0 z-0" style={{ backgroundColor: accentHex }} />
         <div aria-hidden className="absolute inset-0 z-0 bg-black/40" />
@@ -319,14 +319,14 @@ export function HeroScrub({
           <div className="w-[1px] h-20 bg-gradient-to-b from-white/60 via-white/20 to-transparent" />
         </div>
 
-        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-2 md:gap-3">
-          {/* Top Headline: INDIAN (Always 100% visible at top) */}
+        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-1 sm:gap-2">
+          {/* Top Headline: INDIAN (With clean vertical clearance below navbar) */}
           <h2
             ref={titleTopRef}
-            className="font-black uppercase text-center font-display tracking-tight text-white select-none relative z-20"
+            className="font-black uppercase text-center font-display tracking-tight text-white select-none relative z-20 mt-4 sm:mt-6 md:mt-8"
             style={{
-              fontSize: "clamp(4.5rem, 15vw, 13rem)",
-              lineHeight: 0.8,
+              fontSize: "clamp(3.6rem, 12.5vw, 10.5rem)",
+              lineHeight: 0.82,
               letterSpacing: "-0.04em",
               opacity: 1,
               transform: "translate3d(0, 0, 0)",
@@ -341,8 +341,8 @@ export function HeroScrub({
             onClick={onCardClick}
             className="relative overflow-hidden rounded-[16px] md:rounded-[20px] shadow-[0_20px_100px_rgba(0,0,0,0.75)] ring-1 ring-white/15 will-change-transform group cursor-pointer z-10"
             style={{
-              width: `min(94vw, calc(72svh * ${aspect}))`,
-              height: `min(72svh, 94vw / ${aspect})`,
+              width: `min(94vw, calc(70svh * ${aspect}))`,
+              height: `min(70svh, 94vw / ${aspect})`,
               aspectRatio: aspect,
             }}
           >
@@ -500,10 +500,10 @@ export function HeroScrub({
           {/* Bottom Headline: SCOUT (Always 100% visible at top) */}
           <h2
             ref={titleBottomRef}
-            className="font-black uppercase text-center font-display tracking-tight text-white select-none relative z-20"
+            className="font-black uppercase text-center font-display tracking-tight text-white select-none relative z-20 mb-2 sm:mb-4"
             style={{
-              fontSize: "clamp(4.5rem, 15vw, 13rem)",
-              lineHeight: 0.8,
+              fontSize: "clamp(3.6rem, 12.5vw, 10.5rem)",
+              lineHeight: 0.82,
               letterSpacing: "-0.04em",
               opacity: 1,
               transform: "translate3d(0, 0, 0)",

@@ -17,21 +17,33 @@ export function Header({
   onNavigateToLineup,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolledDown, setIsScrolledDown] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Auto-hide navigation bar when scrolling down, show when at the top
+  // Dynamic smart navbar: hides when scrolling down, reappears immediately when scrolling up
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 60) {
-        setIsScrolledDown(true);
-      } else {
-        setIsScrolledDown(false);
+      const currentScrollY = window.scrollY;
+
+      // When near the top, always show navbar
+      if (currentScrollY < 60) {
+        setIsVisible(true);
       }
+      // Scrolling down -> hide navbar smoothly
+      else if (currentScrollY > lastScrollY + 5 && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+      // Scrolling up -> reveal navbar immediately
+      else if (currentScrollY < lastScrollY - 5) {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const handleLineupClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -75,29 +87,21 @@ export function Header({
 
   return (
     <header
-      className={`w-full z-50 fixed top-0 left-0 right-0 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/5 transition-all duration-500 ease-out ${
-        isScrolledDown
-          ? '-translate-y-full opacity-0 pointer-events-none'
-          : 'translate-y-0 opacity-100 pointer-events-auto shadow-2xl'
+      className={`w-full z-50 fixed top-0 left-0 right-0 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isVisible
+          ? 'translate-y-0 opacity-100 pointer-events-auto shadow-2xl'
+          : '-translate-y-full opacity-0 pointer-events-none'
       }`}
     >
-      {/* Top Variation Preview Pill */}
-      <div className="w-full flex justify-end px-6 lg:px-12 pt-2 pb-1 pointer-events-none">
-        <div className="pointer-events-auto inline-flex items-center gap-2 bg-[#818cf8]/20 border border-[#818cf8]/40 text-[#c7d2fe] text-[10px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-full shadow-lg backdrop-blur-md">
-          <Layers className="w-3 h-3 text-[#a5b4fc]" />
-          <span>Variation preview</span>
-        </div>
-      </div>
-
-      {/* Main Navigation Bar */}
+      {/* Sleek Navigation Bar */}
       <nav className="px-6 lg:px-12 py-3 flex items-center justify-between">
         {/* Left: Indian Motorcycle Logo Badge */}
         <div className="flex items-center gap-3">
           <a href="#hero" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 bg-[#ff2c2c] rounded-full flex items-center justify-center font-black text-black text-base italic shadow-lg group-hover:scale-105 transition-transform">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#ff2c2c] rounded-full flex items-center justify-center font-black text-black text-sm sm:text-base italic shadow-lg group-hover:scale-105 transition-transform">
               /
             </div>
-            <span className="font-black uppercase tracking-[0.2em] text-sm sm:text-base font-display text-white">
+            <span className="font-black uppercase tracking-[0.2em] text-xs sm:text-sm md:text-base font-display text-white">
               INDIAN MOTORCYCLE
             </span>
           </a>
@@ -131,24 +135,29 @@ export function Header({
           </button>
         </div>
 
-        {/* Right CTA Button: BUILD YOURS */}
-        <div className="hidden sm:flex items-center gap-4">
+        {/* Right Tools: Variation preview badge + BUILD YOURS */}
+        <div className="flex items-center gap-3">
+          <div className="hidden lg:inline-flex items-center gap-1.5 bg-[#818cf8]/20 border border-[#818cf8]/40 text-[#c7d2fe] text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
+            <Layers className="w-2.5 h-2.5 text-[#a5b4fc]" />
+            <span>Variation preview</span>
+          </div>
+
           <button
             onClick={onOpenDealerModal}
-            className="bg-white text-black hover:bg-[#ff2c2c] hover:text-black px-5 py-2 text-xs font-black uppercase tracking-wider rounded-sm transition-all shadow-md active:scale-95 cursor-pointer"
+            className="bg-white text-black hover:bg-[#ff2c2c] hover:text-black px-4 sm:px-5 py-1.5 sm:py-2 text-xs font-black uppercase tracking-wider rounded-sm transition-all shadow-md active:scale-95 cursor-pointer"
           >
             BUILD YOURS
           </button>
-        </div>
 
-        {/* Mobile Hamburger Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-white hover:text-[#ff2c2c] focus:outline-none"
-          aria-label="Toggle navigation menu"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+          {/* Mobile Hamburger Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-white hover:text-[#ff2c2c] focus:outline-none ml-1"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu Dropdown */}
