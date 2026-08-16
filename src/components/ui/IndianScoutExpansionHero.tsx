@@ -1,17 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { MotorcycleModel, MOTORCYCLE_LINEUP } from '../../data/motorcycles';
 import {
-  Sliders,
   ArrowRight,
-  Check,
   X,
   Volume2,
   VolumeX,
   Gauge,
-  Zap,
   Sparkles,
 } from 'lucide-react';
 
@@ -123,7 +120,6 @@ export function IndianScoutExpansionHero({
   const [activeKey, setActiveKey] = useState<string>(
     modelsDict[initialModelId] ? initialModelId : 'scout-bobber-twenty'
   );
-  const [selectedColorIdx, setSelectedColorIdx] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [telemetrySpeed, setTelemetrySpeed] = useState<number>(88);
   const [isEngineRevving, setIsEngineRevving] = useState<boolean>(false);
@@ -138,7 +134,6 @@ export function IndianScoutExpansionHero({
   useEffect(() => {
     if (modelsDict[initialModelId]) {
       setActiveKey(initialModelId);
-      setSelectedColorIdx(0);
     }
   }, [initialModelId]);
 
@@ -166,7 +161,6 @@ export function IndianScoutExpansionHero({
 
   const currentModelInfo = modelsDict[activeKey] || modelsDict['scout-bobber-twenty'];
   const currentModel = currentModelInfo.modelData;
-  const currentColor = currentModel.colors[selectedColorIdx] || currentModel.colors[0];
 
   const handleClose = () => {
     if (isEngineRevving && audioCtxRef.current) {
@@ -268,10 +262,7 @@ export function IndianScoutExpansionHero({
             return (
               <button
                 key={m.id}
-                onClick={() => {
-                  setActiveKey(m.id);
-                  setSelectedColorIdx(0);
-                }}
+                onClick={() => setActiveKey(m.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                   isSel
                     ? 'bg-[#ff2c2c] text-black shadow-[0_0_20px_rgba(255,44,44,0.4)]'
@@ -391,12 +382,12 @@ export function IndianScoutExpansionHero({
             </p>
           </div>
 
-          {/* Motorcycle Render & Color Swatches */}
+          {/* Motorcycle Render & Key Features */}
           <div className="bg-[#161616] border border-white/10 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="relative w-full md:w-1/2 aspect-[16/9] flex items-center justify-center">
               <img
-                src={currentColor.imageUrl}
-                alt={`${currentModel.name} - ${currentColor.name}`}
+                src={currentModel.colors[0]?.imageUrl || 'images/Indian-Scout.webp'}
+                alt={currentModel.name}
                 className="w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)] transition-all duration-500"
               />
               <div className="absolute -bottom-2 w-3/4 h-8 bg-[#ff2c2c]/15 blur-xl rounded-full pointer-events-none" />
@@ -404,39 +395,19 @@ export function IndianScoutExpansionHero({
 
             <div className="w-full md:w-1/2 space-y-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 block mb-1">
-                  Selected Paintwork:
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#ff2c2c] block mb-1">
+                  Engineered Platform:
                 </span>
-                <p className="text-lg font-bold text-white">{currentColor.name}</p>
+                <p className="text-xl font-black uppercase font-display text-white">{currentModel.name}</p>
               </div>
 
-              <div className="flex items-center space-x-3">
-                {currentModel.colors.map((c, idx) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedColorIdx(idx)}
-                    className={`w-7 h-7 rounded-full transition cursor-pointer flex items-center justify-center ${
-                      selectedColorIdx === idx
-                        ? 'ring-2 ring-offset-2 ring-offset-[#161616] ring-[#ff2c2c] scale-110'
-                        : 'opacity-70 hover:opacity-100 ring-1 ring-white/20'
-                    }`}
-                    style={{ backgroundColor: c.hex }}
-                    title={c.name}
-                  >
-                    {selectedColorIdx === idx && (
-                      <Check className={`w-3.5 h-3.5 ${c.hex === '#e2e5e8' ? 'text-black' : 'text-white'}`} />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              <div className="pt-2">
+              <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 block mb-2">
                   Key Engineered Features:
                 </span>
-                <ul className="space-y-1.5 text-xs text-white/80">
+                <ul className="space-y-2 text-xs text-white/80">
                   {currentModel.features.map((feat, fIdx) => (
-                    <li key={fIdx} className="flex items-center gap-2">
+                    <li key={fIdx} className="flex items-center gap-2.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#ff2c2c] shrink-0" />
                       <span>{feat}</span>
                     </li>
@@ -482,9 +453,8 @@ export function IndianScoutExpansionHero({
                   handleClose();
                   onOpenCustomizer(currentModel);
                 }}
-                className="bg-[#ff2c2c] hover:bg-white text-black px-6 py-3.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-xl active:scale-95"
+                className="bg-[#ff2c2c] hover:bg-white text-black px-6 py-3.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center cursor-pointer shadow-xl active:scale-95"
               >
-                <Sliders className="w-4 h-4" />
                 <span>Launch Configurator</span>
               </button>
 

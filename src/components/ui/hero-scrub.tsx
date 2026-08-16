@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Gauge, Zap, ShieldCheck } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,9 +48,8 @@ export function HeroScrub({
   defaultAspect = 16 / 9,
   collectionName = "HERITAGE COLLECTION",
   modelName = "SCOUT BOBBER",
-  hp = "100",
-  torque = "72",
-  onCardClick,
+  hp = "105",
+  torque = "82",
 }: HeroScrubProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -361,11 +359,10 @@ export function HeroScrub({
             {titleTop}
           </h2>
 
-          {/* Center Showcase Card with Canvas & Overlays */}
+          {/* Center Showcase Card with Canvas & Overlays (Scroll-controlled, non-clickable) */}
           <div
             ref={cardRef}
-            onClick={onCardClick}
-            className="relative overflow-hidden rounded-[16px] md:rounded-[20px] shadow-[0_20px_100px_rgba(0,0,0,0.75)] ring-1 ring-white/15 will-change-transform group cursor-pointer z-10"
+            className="relative overflow-hidden rounded-[16px] md:rounded-[20px] shadow-[0_20px_100px_rgba(0,0,0,0.75)] ring-1 ring-white/15 will-change-transform z-10 select-none"
             style={{
               width: `min(94vw, calc(70svh * ${aspect}))`,
               height: `min(70svh, 94vw / ${aspect})`,
@@ -429,8 +426,7 @@ export function HeroScrub({
               className="absolute inset-0 z-40 pointer-events-none p-6 sm:p-10 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0"
             >
               <div className="max-w-xl">
-                <div className="inline-flex items-center gap-2 bg-[#ff2c2c] text-black text-[10px] font-black uppercase px-2.5 py-0.5 rounded-sm tracking-widest mb-2 shadow-md">
-                  <Zap className="w-3 h-3" />
+                <div className="inline-flex items-center bg-[#ff2c2c] text-black text-[10px] font-black uppercase px-2.5 py-0.5 rounded-sm tracking-widest mb-2 shadow-md">
                   <span>01 // SIGNATURE ILLUMINATION</span>
                 </div>
                 <h3 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase italic font-display text-white tracking-tight leading-none mb-2 drop-shadow-xl">
@@ -448,8 +444,7 @@ export function HeroScrub({
               className="absolute inset-0 z-40 pointer-events-none p-6 sm:p-10 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0"
             >
               <div className="max-w-xl">
-                <div className="inline-flex items-center gap-2 bg-[#ff2c2c] text-black text-[10px] font-black uppercase px-2.5 py-0.5 rounded-sm tracking-widest mb-2 shadow-md">
-                  <ShieldCheck className="w-3 h-3" />
+                <div className="inline-flex items-center bg-[#ff2c2c] text-black text-[10px] font-black uppercase px-2.5 py-0.5 rounded-sm tracking-widest mb-2 shadow-md">
                   <span>02 // ENGINE CRAFTSMANSHIP</span>
                 </div>
                 <h3 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase italic font-display text-white tracking-tight leading-none mb-2 drop-shadow-xl">
@@ -468,8 +463,7 @@ export function HeroScrub({
             >
               {/* Top HUD: Speedometer Sweep */}
               <div className="flex items-center justify-between w-full">
-                <div className="inline-flex items-center gap-2 bg-black/80 border border-white/10 backdrop-blur-md px-3 py-1.5 rounded-sm">
-                  <Gauge className="w-4 h-4 text-[#ff2c2c] animate-pulse" />
+                <div className="inline-flex items-center bg-black/80 border border-white/10 backdrop-blur-md px-3 py-1.5 rounded-sm">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-white">
                     SPEEDOMETER TELEMETRY
                   </span>

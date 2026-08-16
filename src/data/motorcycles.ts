@@ -298,12 +298,12 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
 ];
 
 export const ACCESSORIES_LIST = [
-  { id: 'acc-exhaust', name: 'Stage 1 2-into-1 Full Exhaust System', category: 'Performance', price: 1099, image: '🔥' },
-  { id: 'acc-seat', name: 'Syndicate 2-Up Genuine Leather Seat', category: 'Comfort', price: 449, image: '💺' },
-  { id: 'acc-bars', name: '10-inch Mini Ape-Hanger Handlebars', category: 'Style', price: 299, image: '🏍️' },
-  { id: 'acc-bags', name: 'Quick-Release Weatherproof Bobber Saddlebags', category: 'Touring', price: 699, image: '💼' },
-  { id: 'acc-fairing', name: 'Quarter Fairing with Smoked Windshield', category: 'Style', price: 379, image: '🛡️' },
-  { id: 'acc-ridecommand', name: '4-inch Round Touchscreen with RIDE COMMAND', category: 'Tech', price: 899, image: '📱' },
+  { id: 'acc-exhaust', name: 'Stage 1 2-into-1 Full Exhaust System', category: 'Performance', price: 1099 },
+  { id: 'acc-seat', name: 'Syndicate 2-Up Genuine Leather Seat', category: 'Comfort', price: 449 },
+  { id: 'acc-bars', name: '10-inch Mini Ape-Hanger Handlebars', category: 'Style', price: 299 },
+  { id: 'acc-bags', name: 'Quick-Release Weatherproof Bobber Saddlebags', category: 'Touring', price: 699 },
+  { id: 'acc-fairing', name: 'Quarter Fairing with Smoked Windshield', category: 'Style', price: 379 },
+  { id: 'acc-ridecommand', name: '4-inch Round Touchscreen with RIDE COMMAND', category: 'Tech', price: 899 },
 ];
 
 export const DEALERSHIPS = [

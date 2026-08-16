@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Cpu, Compass, Flame, Zap } from 'lucide-react';
 
 export function ScoutBobberFeatures() {
   const [activeTab, setActiveTab] = useState<'engine' | 'stance' | 'tech' | 'heritage'>('engine');
@@ -77,25 +76,23 @@ export function ScoutBobberFeatures() {
         {/* Feature Navigation Tabs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 max-w-4xl mx-auto mb-10">
           {[
-            { id: 'engine', label: 'SpeedPlus 1250cc', icon: Flame },
-            { id: 'stance', label: 'Bobber Stance', icon: Zap },
-            { id: 'tech', label: 'RIDE COMMAND Tech', icon: Cpu },
-            { id: 'heritage', label: 'Historic DNA', icon: Compass }
+            { id: 'engine', label: 'SpeedPlus 1250cc' },
+            { id: 'stance', label: 'Bobber Stance' },
+            { id: 'tech', label: 'RIDE COMMAND Tech' },
+            { id: 'heritage', label: 'Historic DNA' }
           ].map((tab) => {
-            const Icon = tab.icon;
             const isSelected = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`py-3 px-4 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center space-x-2 border cursor-pointer ${
+                className={`py-3.5 px-4 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center text-center border cursor-pointer ${
                   isSelected
                     ? 'bg-[#ff2c2c] text-black border-[#ff2c2c] shadow-[0_0_25px_rgba(255,44,44,0.2)]'
                     : 'bg-[#161616] text-white/60 border-white/5 hover:text-white hover:bg-[#202020]'
                 }`}
               >
-                <Icon className="w-4 h-4" />
-                <span>{tab.label}</span>
+                <span className="w-full text-center">{tab.label}</span>
               </button>
             );
           })}

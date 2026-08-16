@@ -12,7 +12,6 @@ interface CustomizerModalProps {
 export function CustomizerModal({ model, isOpen, onClose, onSelectTestRide }: CustomizerModalProps) {
   if (!isOpen || !model) return null;
 
-  const [selectedColorIdx, setSelectedColorIdx] = useState(0);
   const [selectedTrim, setSelectedTrim] = useState<'Standard' | 'Limited' | 'Limited+Tech'>('Limited+Tech');
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>(['acc-exhaust']);
   const [financingMonths, setFinancingMonths] = useState<number>(60);
@@ -40,7 +39,7 @@ export function CustomizerModal({ model, isOpen, onClose, onSelectTestRide }: Cu
     );
   };
 
-  const currentColor = model.colors[selectedColorIdx] || model.colors[0];
+  const defaultImage = model.colors[0]?.imageUrl || 'images/Indian-Scout.webp';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
@@ -69,15 +68,12 @@ export function CustomizerModal({ model, isOpen, onClose, onSelectTestRide }: Cu
           <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
             <div className="bg-[#161616] border border-white/5 rounded-lg p-4 flex flex-col items-center justify-center min-h-[260px] relative">
               <img
-                src={currentColor.imageUrl}
+                src={defaultImage}
                 alt={model.name}
                 className="w-full object-contain max-h-[220px] drop-shadow-2xl"
               />
               <div className="absolute top-3 left-3 bg-[#ff2c2c] text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-sm">
                 {selectedTrim} TRIM
-              </div>
-              <div className="absolute bottom-2 text-center text-xs font-bold text-white/70">
-                {currentColor.name}
               </div>
             </div>
 
@@ -175,36 +171,10 @@ export function CustomizerModal({ model, isOpen, onClose, onSelectTestRide }: Cu
               </div>
             </div>
 
-            {/* 2. Color Choice */}
+            {/* 2. Genuine Indian Accessories */}
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff2c2c] mb-2">
-                2. Select Factory Paint
-              </h4>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {model.colors.map((c, idx) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedColorIdx(idx)}
-                    className={`p-2 rounded-lg border flex flex-col items-center text-center transition-all ${
-                      selectedColorIdx === idx
-                        ? 'border-[#ff2c2c] bg-[#161616] text-white ring-1 ring-[#ff2c2c]'
-                        : 'border-white/5 bg-[#0a0a0a] text-white/50 hover:text-white'
-                    }`}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border border-white/20 mb-1.5 shadow-sm"
-                      style={{ backgroundColor: c.hex }}
-                    />
-                    <span className="text-[10px] font-semibold line-clamp-1">{c.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 3. Genuine Indian Accessories */}
-            <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff2c2c] mb-2">
-                3. Factory Accessories & Custom Packages
+                2. Factory Accessories & Custom Packages
               </h4>
               <div className="space-y-2">
                 {ACCESSORIES_LIST.map((acc) => {
@@ -227,7 +197,6 @@ export function CustomizerModal({ model, isOpen, onClose, onSelectTestRide }: Cu
                         >
                           {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
                         </div>
-                        <span className="text-base">{acc.image}</span>
                         <div>
                           <span className="text-xs font-bold block">{acc.name}</span>
                           <span className="text-[9px] text-white/40 uppercase">{acc.category}</span>
@@ -240,7 +209,7 @@ export function CustomizerModal({ model, isOpen, onClose, onSelectTestRide }: Cu
               </div>
             </div>
 
-            {/* 4. Financing Estimate Calculator Slider */}
+            {/* 3. Financing Estimate Calculator Slider */}
             <div className="bg-[#161616] p-4 rounded-lg border border-white/5 space-y-3">
               <h4 className="text-[10px] font-bold uppercase tracking-wider text-white/70 flex items-center gap-1.5">
                 <Calculator className="w-3.5 h-3.5 text-[#ff2c2c]" />

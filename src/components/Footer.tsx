@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, ShieldAlert, Award, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 export function Footer() {
   const scrollToTop = () => {
@@ -10,42 +10,38 @@ export function Footer() {
     <footer id="footer" className="w-full bg-[#0a0a0a] text-[#f5f5f5] border-t border-white/5 pt-16 pb-12 px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
         {/* Top Banner Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-12 border-b border-white/5 text-center md:text-left">
-          <div className="flex items-center space-x-3 justify-center md:justify-start">
-            <div className="w-9 h-9 rounded-full bg-[#ff2c2c]/10 text-[#ff2c2c] flex items-center justify-center shrink-0 border border-[#ff2c2c]/20">
-              <Award className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase block text-white">2-Year Factory Warranty</span>
-              <span className="text-[10px] text-white/40">Unlimited mileage protection</span>
-            </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-12 border-b border-white/5 text-center">
+          <div className="flex flex-col items-center justify-center p-3">
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-white text-center">
+              2-Year Factory Warranty
+            </span>
+            <span className="text-[11px] text-white/40 mt-1.5 text-center font-medium">
+              Unlimited mileage protection
+            </span>
           </div>
-          <div className="flex items-center space-x-3 justify-center md:justify-start">
-            <div className="w-9 h-9 rounded-full bg-[#ff2c2c]/10 text-[#ff2c2c] flex items-center justify-center shrink-0 border border-[#ff2c2c]/20">
-              <MapPin className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase block text-white">400+ Dealer Network</span>
-              <span className="text-[10px] text-white/40">Certified service & parts</span>
-            </div>
+          <div className="flex flex-col items-center justify-center p-3">
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-white text-center">
+              400+ Dealer Network
+            </span>
+            <span className="text-[11px] text-white/40 mt-1.5 text-center font-medium">
+              Certified service & parts
+            </span>
           </div>
-          <div className="flex items-center space-x-3 justify-center md:justify-start">
-            <div className="w-9 h-9 rounded-full bg-[#ff2c2c]/10 text-[#ff2c2c] flex items-center justify-center shrink-0 border border-[#ff2c2c]/20">
-              <Phone className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase block text-white">Riders Roadside Support</span>
-              <span className="text-[10px] text-white/40">24/7 assistance on the road</span>
-            </div>
+          <div className="flex flex-col items-center justify-center p-3">
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-white text-center">
+              Riders Roadside Support
+            </span>
+            <span className="text-[11px] text-white/40 mt-1.5 text-center font-medium">
+              24/7 assistance on the road
+            </span>
           </div>
-          <div className="flex items-center space-x-3 justify-center md:justify-start">
-            <div className="w-9 h-9 rounded-full bg-[#ff2c2c]/10 text-[#ff2c2c] flex items-center justify-center shrink-0 border border-[#ff2c2c]/20">
-              <ShieldAlert className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase block text-white">Spirit Lake, Iowa</span>
-              <span className="text-[10px] text-white/40">Proudly assembled in the USA</span>
-            </div>
+          <div className="flex flex-col items-center justify-center p-3">
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-white text-center">
+              Spirit Lake, Iowa
+            </span>
+            <span className="text-[11px] text-white/40 mt-1.5 text-center font-medium">
+              Proudly assembled in the USA
+            </span>
           </div>
         </div>
 

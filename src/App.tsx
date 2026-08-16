@@ -57,15 +57,14 @@ export default function App() {
     },
   ];
 
-  const [activeHeroCardId, setActiveHeroCardId] = useState<string>('scout-bobber-twenty');
-
-  const activeCardData =
-    heroCards.find((c) => c.id === activeHeroCardId) || heroCards[1];
+  const [activeHeroCardId, setActiveHeroCardId] = useState<string>('scout-bobber-sixty');
+  const [videoModalModelId, setVideoModalModelId] = useState<string>('scout-bobber-sixty');
 
   const handleHeroCardClick = (card: typeof heroCards[0]) => {
     setActiveHeroCardId(card.id);
+    setVideoModalModelId(card.id);
     setSelectedModel(card.modelData);
-    // When clicking the video down beneath, open the zoom-in video expansion & model introduction!
+    // When clicking the video thumbnail card beneath, open the zoom-in video expansion & model introduction!
     setIsVideoModalOpen(true);
   };
 
@@ -103,7 +102,10 @@ export default function App() {
           if (m) {
             setSelectedModel(m);
             const card = heroCards.find((c) => c.modelData.id === m.id);
-            if (card) setActiveHeroCardId(card.id);
+            if (card) {
+              setActiveHeroCardId(card.id);
+              setVideoModalModelId(card.id);
+            }
           }
         }}
       />
@@ -118,11 +120,10 @@ export default function App() {
           titleTop="INDIAN"
           titleBottom="SCOUT"
           accentHex="#6b080e"
-          collectionName={activeCardData.collection}
-          modelName={activeCardData.name}
-          hp={activeCardData.hp}
-          torque={activeCardData.torque}
-          onCardClick={() => setIsVideoModalOpen(true)}
+          collectionName="HERITAGE COLLECTION"
+          modelName="SCOUT BOBBER"
+          hp="105"
+          torque="82"
         />
 
         {/* 3. Bottom Hero Cards Row (Directly below Hero, strictly matching screenshot layout) */}
@@ -225,7 +226,7 @@ export default function App() {
       {/* 9. Video Zoom Expansion Experience (Using ScrollExpandMedia with initial small state -> zoom-in animation -> scroll down reveals About tab) */}
       {isVideoModalOpen && (
         <IndianScoutExpansionHero
-          initialModelId={activeHeroCardId}
+          initialModelId={videoModalModelId || activeHeroCardId}
           onClose={() => setIsVideoModalOpen(false)}
           onOpenCustomizer={handleOpenCustomizer}
           onOpenTestRide={handleOpenTestRide}
