@@ -148,6 +148,48 @@ export const MOTORCYCLE_LINEUP: MotorcycleModel[] = [
     ]
   },
   {
+    id: 'scout-rogue',
+    category: 'SCOUT BOBBER',
+    name: 'Scout Rogue',
+    subtitle: 'ICONIC AGGRESSIVE STRIPPED-DOWN STYLE',
+    bgTitle: 'SCOUT ROGUE',
+    bgSubtitle: 'DARK CHROME & MINI-APES',
+    price: '$12,749',
+    priceNum: 12749,
+    engine: 'Liquid-Cooled 1250cc SpeedPlus V-Twin',
+    displacement: '1250 cc (76.3 cu in)',
+    horsepower: '100 HP',
+    torque: '72 ft-lbs @ 6000 RPM',
+    weight: '525 lbs (238 kg)',
+    seatHeight: '25.6 in (649 mm)',
+    fuelCapacity: '3.4 gal (13 L)',
+    description: 'Packed with attitude and styled for the bold. Featuring a distinctive quarter fairing, mini-ape handlebars, sport-style seat, and blacked-out Dark Chrome finishes.',
+    features: [
+      'Aggressive Quarter Fairing with Tinted Screen',
+      'Mini-Ape Hanger Handlebars',
+      'Sport-Contoured Solo Saddle',
+      '19-inch Front Wheel with Blackout Spokes',
+      'Dark Chrome Accents & Premium Emblems'
+    ],
+    colors: [
+      {
+        name: 'Dark Chrome',
+        hex: '#2b2d30',
+        imageUrl: 'images/Indian-Scout.webp'
+      },
+      {
+        name: 'Black Metallic',
+        hex: '#111111',
+        imageUrl: 'images/Indian-Scout.webp'
+      },
+      {
+        name: 'Storm Blue',
+        hex: '#1e3347',
+        imageUrl: 'images/Indian-Scout.webp'
+      }
+    ]
+  },
+  {
     id: 'sport-scout',
     category: 'SCOUT BOBBER',
     name: 'Sport Scout',

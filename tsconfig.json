@@ -18,6 +18,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "next/image": [
+        "./src/components/ui/next-image-shim.tsx"
       ]
     },
     "allowImportingTsExtensions": true,

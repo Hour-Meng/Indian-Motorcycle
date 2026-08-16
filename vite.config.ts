@@ -9,6 +9,7 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        'next/image': path.resolve(__dirname, 'src/components/ui/next-image-shim.tsx'),
       },
     },
     server: {

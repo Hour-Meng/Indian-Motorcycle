@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { HeroScrub } from './components/ui/hero-scrub';
+import { VideoExpansionModal } from './components/ui/VideoExpansionModal';
 import { LineupSection } from './components/LineupSection';
 import { ScoutBobberFeatures } from './components/ScoutBobberFeatures';
 import { AudioEngineRev } from './components/AudioEngineRev';
@@ -20,6 +21,7 @@ export default function App() {
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isDealerModalOpen, setIsDealerModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   // Model Cards matching the user's design reference
   const heroCards = [
@@ -51,18 +53,20 @@ export default function App() {
       collection: 'HERITAGE COLLECTION',
       hp: '100',
       torque: '72',
-      modelData: MOTORCYCLE_LINEUP[0],
+      modelData: MOTORCYCLE_LINEUP.find((m) => m.id === 'scout-rogue') || MOTORCYCLE_LINEUP[0],
     },
   ];
 
-  const [activeHeroCardId, setActiveHeroCardId] = useState<string>('scout-rogue');
+  const [activeHeroCardId, setActiveHeroCardId] = useState<string>('scout-bobber-twenty');
 
-  const activeCardData = heroCards.find((c) => c.id === activeHeroCardId) || heroCards[2];
+  const activeCardData =
+    heroCards.find((c) => c.id === activeHeroCardId) || heroCards[1];
 
   const handleHeroCardClick = (card: typeof heroCards[0]) => {
     setActiveHeroCardId(card.id);
     setSelectedModel(card.modelData);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // When clicking the video down beneath, open the zoom-in video expansion & model introduction!
+    setIsVideoModalOpen(true);
   };
 
   const handleNavigateToLineup = () => {
@@ -104,7 +108,7 @@ export default function App() {
         }}
       />
 
-      {/* 2. Hero Section: Cinematic Scroll-Scrubbed Zooming Hero Card with Storyboard Overlays */}
+      {/* 2. Main 3D Hero Section: Cinematic Scroll-Scrubbed 3D Indian Scout with Speedometer Street Telemetry */}
       <div id="hero" className="relative w-full bg-[#0a0a0a] pt-12 md:pt-0">
         <HeroScrub
           frameCount={180}
@@ -113,12 +117,12 @@ export default function App() {
           }
           titleTop="INDIAN"
           titleBottom="SCOUT"
-          accentHex="#ff2c2c"
+          accentHex="#6b080e"
           collectionName={activeCardData.collection}
           modelName={activeCardData.name}
           hp={activeCardData.hp}
           torque={activeCardData.torque}
-          onCardClick={handleNavigateToLineup}
+          onCardClick={() => setIsVideoModalOpen(true)}
         />
 
         {/* 3. Bottom Hero Cards Row (Directly below Hero, strictly matching screenshot layout) */}
@@ -132,7 +136,7 @@ export default function App() {
                   onClick={() => handleHeroCardClick(card)}
                   className={`group relative cursor-pointer bg-[#121212]/90 backdrop-blur-md rounded-xl p-3.5 flex items-center gap-4 transition-all duration-300 shadow-2xl ${
                     isActive
-                      ? 'border border-[#ff2c2c] ring-1 ring-[#ff2c2c] shadow-[0_0_35px_rgba(255,44,44,0.25)] bg-[#181818]'
+                      ? 'border-2 border-[#ff2c2c] ring-1 ring-[#ff2c2c] shadow-[0_0_35px_rgba(255,44,44,0.25)] bg-[#181818]'
                       : 'border border-white/10 hover:border-white/25 hover:bg-[#161616]'
                   }`}
                 >
@@ -217,6 +221,16 @@ export default function App() {
 
       {/* 8. Comprehensive Footer */}
       <Footer />
+
+      {/* Video Zoom-in Expansion Modal (Triggered when clicking the video down beneath) */}
+      <VideoExpansionModal
+        isOpen={isVideoModalOpen}
+        initialCardId={activeHeroCardId}
+        onClose={() => setIsVideoModalOpen(false)}
+        onOpenCustomizer={handleOpenCustomizer}
+        onOpenTestRide={handleOpenTestRide}
+        onNavigateToLineup={handleNavigateToLineup}
+      />
 
       {/* Modals */}
       <CustomizerModal

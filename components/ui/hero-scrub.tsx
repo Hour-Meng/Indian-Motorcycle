@@ -190,6 +190,24 @@ export function HeroScrub({
       gsap.set(titleBottomRef.current, { opacity: 1, x: 0, clearProps: "transform" });
       gsap.set(idleBadgeRef.current, { opacity: 1, y: 0 });
 
+      // Handle Programmatic Navigation Skip (suppress video playback)
+      const handleNavSkip = (e: any) => {
+        const target = e.detail?.target;
+        if (target === 'top') {
+          drawFrame(0);
+          gsap.set([scene1Ref.current, scene2Ref.current, scene3Ref.current, scene4Ref.current], { opacity: 0 });
+          gsap.set(cardRef.current, { scale: startScale() });
+          gsap.set(titleTopRef.current, { x: 0, opacity: 1 });
+          gsap.set(titleBottomRef.current, { x: 0, opacity: 1 });
+          gsap.set(idleBadgeRef.current, { opacity: 1, y: 0 });
+          setLiveSpeed(0);
+        } else {
+          gsap.set([scene1Ref.current, scene2Ref.current, scene3Ref.current, scene4Ref.current], { opacity: 0 });
+        }
+      };
+
+      window.addEventListener('navigatingHeroSkip', handleNavSkip);
+
       // Master Timeline for Card Scale & Titles
       const master = gsap.timeline({
         scrollTrigger: {
@@ -201,6 +219,10 @@ export function HeroScrub({
           onUpdate: (self) => {
             // Check if navigation skip is active
             if ((window as any).__isNavigatingScroll) {
+              if (window.scrollY < 100) {
+                drawFrame(0);
+                gsap.set([scene1Ref.current, scene2Ref.current, scene3Ref.current, scene4Ref.current], { opacity: 0 });
+              }
               return; // Do not scrub video frames during navigation clicks
             }
 
@@ -281,6 +303,10 @@ export function HeroScrub({
         .to(scene4Ref.current, { opacity: 0, duration: 0.08 }, "+=0.05");
 
       ScrollTrigger.refresh();
+
+      return () => {
+        window.removeEventListener('navigatingHeroSkip', handleNavSkip);
+      };
     }, sectionRef);
 
     return () => ctx.revert();
