@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { HeroScrub } from './components/ui/hero-scrub';
-import { VideoExpansionModal } from './components/ui/VideoExpansionModal';
+import { IndianScoutExpansionHero } from './components/ui/IndianScoutExpansionHero';
 import { LineupSection } from './components/LineupSection';
 import { ScoutBobberFeatures } from './components/ScoutBobberFeatures';
 import { AudioEngineRev } from './components/AudioEngineRev';
@@ -33,7 +33,7 @@ export default function App() {
       collection: 'HERITAGE COLLECTION',
       hp: '78',
       torque: '65',
-      modelData: MOTORCYCLE_LINEUP[1] || MOTORCYCLE_LINEUP[0],
+      modelData: MOTORCYCLE_LINEUP.find((m) => m.id === 'scout-sixty-bobber') || MOTORCYCLE_LINEUP[1] || MOTORCYCLE_LINEUP[0],
     },
     {
       id: 'scout-bobber-twenty',
@@ -43,7 +43,7 @@ export default function App() {
       collection: 'HERITAGE COLLECTION',
       hp: '105',
       torque: '82',
-      modelData: MOTORCYCLE_LINEUP[2] || MOTORCYCLE_LINEUP[0],
+      modelData: MOTORCYCLE_LINEUP.find((m) => m.id === 'scout-bobber-twenty') || MOTORCYCLE_LINEUP[2] || MOTORCYCLE_LINEUP[0],
     },
     {
       id: 'scout-rogue',
@@ -222,15 +222,16 @@ export default function App() {
       {/* 8. Comprehensive Footer */}
       <Footer />
 
-      {/* Video Zoom-in Expansion Modal (Triggered when clicking the video down beneath) */}
-      <VideoExpansionModal
-        isOpen={isVideoModalOpen}
-        initialCardId={activeHeroCardId}
-        onClose={() => setIsVideoModalOpen(false)}
-        onOpenCustomizer={handleOpenCustomizer}
-        onOpenTestRide={handleOpenTestRide}
-        onNavigateToLineup={handleNavigateToLineup}
-      />
+      {/* 9. Video Zoom Expansion Experience (Using ScrollExpandMedia with initial small state -> zoom-in animation -> scroll down reveals About tab) */}
+      {isVideoModalOpen && (
+        <IndianScoutExpansionHero
+          initialModelId={activeHeroCardId}
+          onClose={() => setIsVideoModalOpen(false)}
+          onOpenCustomizer={handleOpenCustomizer}
+          onOpenTestRide={handleOpenTestRide}
+          onNavigateToLineup={handleNavigateToLineup}
+        />
+      )}
 
       {/* Modals */}
       <CustomizerModal

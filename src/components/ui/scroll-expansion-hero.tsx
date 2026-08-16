@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export interface ScrollExpandMediaProps {
+  key?: string | number;
   mediaType?: 'video' | 'image';
   mediaSrc: string;
   posterSrc?: string;
@@ -20,6 +21,7 @@ export interface ScrollExpandMediaProps {
   date?: string;
   scrollToExpand?: string;
   textBlend?: boolean;
+  autoExpand?: boolean;
   children?: ReactNode;
 }
 
@@ -32,6 +34,7 @@ const ScrollExpandMedia = ({
   date,
   scrollToExpand,
   textBlend,
+  autoExpand = true,
   children,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -41,12 +44,93 @@ const ScrollExpandMedia = ({
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const contentSectionRef = useRef<HTMLElement | null>(null);
+  const autoAnimTimerRef = useRef<number | null>(null);
 
+  // Auto-expand animation sequence on mount / media change
   useEffect(() => {
     setScrollProgress(0);
     setShowContent(false);
     setMediaFullyExpanded(false);
-  }, [mediaType]);
+
+    if (autoExpand) {
+      // Brief pause to display the small video form, then smoothly zoom in
+      const startDelayTimer = window.setTimeout(() => {
+        let startTime: number | null = null;
+        const duration = 1200; // ms for smooth zoom animation
+
+        const step = (timestamp: number) => {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const t = Math.min(1, elapsed / duration);
+          // Smooth easeInOutCubic
+          const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          const progress = ease;
+
+          setScrollProgress(progress);
+
+          if (progress >= 0.75) {
+            setShowContent(true);
+          }
+
+          if (t < 1) {
+            autoAnimTimerRef.current = requestAnimationFrame(step);
+          } else {
+            setScrollProgress(1);
+            setMediaFullyExpanded(true);
+            setShowContent(true);
+
+            // After reaching full screen, smoothly glide down into the model introduction
+            window.setTimeout(() => {
+              if (contentSectionRef.current) {
+                contentSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 300);
+          }
+        };
+
+        autoAnimTimerRef.current = requestAnimationFrame(step);
+      }, 250);
+
+      return () => {
+        window.clearTimeout(startDelayTimer);
+        if (autoAnimTimerRef.current) {
+          cancelAnimationFrame(autoAnimTimerRef.current);
+        }
+      };
+    }
+  }, [mediaSrc, autoExpand]);
+
+  const handleMediaClick = () => {
+    if (!mediaFullyExpanded) {
+      const start = scrollProgress;
+      const startTime = performance.now();
+      const duration = 700;
+
+      const animateProgress = (now: number) => {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / duration);
+        const ease = 1 - Math.pow(1 - t, 3);
+        const val = start + (1 - start) * ease;
+        setScrollProgress(val);
+        if (val >= 0.75) {
+          setShowContent(true);
+        }
+        if (t < 1) {
+          requestAnimationFrame(animateProgress);
+        } else {
+          setMediaFullyExpanded(true);
+          setShowContent(true);
+          window.setTimeout(() => {
+            if (contentSectionRef.current) {
+              contentSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 200);
+        }
+      };
+      requestAnimationFrame(animateProgress);
+    }
+  };
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -86,8 +170,7 @@ const ScrollExpandMedia = ({
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        // Increase sensitivity for mobile, especially when scrolling back
-        const scrollFactor = deltaY < 0 ? 0.008 : 0.005; // Higher sensitivity for scrolling back
+        const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
@@ -199,7 +282,10 @@ const ScrollExpandMedia = ({
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative'>
               <div
-                className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl'
+                onClick={handleMediaClick}
+                className={`absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl ${
+                  !mediaFullyExpanded ? 'cursor-pointer hover:scale-[1.02] transition-transform duration-300' : ''
+                }`}
                 style={{
                   width: `${mediaWidth}px`,
                   height: `${mediaHeight}px`,
@@ -328,6 +414,7 @@ const ScrollExpandMedia = ({
             </div>
 
             <motion.section
+              ref={contentSectionRef}
               className='flex flex-col w-full px-8 py-10 md:px-16 lg:py-20'
               initial={{ opacity: 0 }}
               animate={{ opacity: showContent ? 1 : 0 }}
