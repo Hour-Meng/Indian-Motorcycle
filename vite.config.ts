@@ -17,6 +17,7 @@ function copyStaticAssetsPlugin() {
           fs.cpSync(srcDir, destDir, { recursive: true });
         }
       }
+      fs.writeFileSync(path.resolve(outDir, '.nojekyll'), '');
     },
   };
 }
