@@ -9,7 +9,6 @@ import { HeroScrub } from './components/ui/hero-scrub';
 import { IndianScoutExpansionHero } from './components/ui/IndianScoutExpansionHero';
 import { LineupSection } from './components/LineupSection';
 import { ScoutBobberFeatures } from './components/ScoutBobberFeatures';
-import { AudioEngineRev } from './components/AudioEngineRev';
 import { CustomizerModal } from './components/CustomizerModal';
 import { DealerLocatorModal } from './components/DealerLocatorModal';
 import { EmailSignupModal } from './components/EmailSignupModal';
@@ -186,10 +185,7 @@ export default function App() {
       {/* 5. Scout Bobber Engineering & Heritage Deep Dive */}
       <ScoutBobberFeatures />
 
-      {/* 6. Acoustic American V-Twin Rev Simulator */}
-      <AudioEngineRev />
-
-      {/* 7. Quick Action / Build & Price Pre-Order Banner */}
+      {/* 6. Quick Action / Build & Price Pre-Order Banner */}
       <section className="w-full bg-[#ff2c2c] text-black py-12 px-6 lg:px-10 shadow-2xl">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div>

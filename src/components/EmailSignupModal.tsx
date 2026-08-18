@@ -7,12 +7,24 @@ interface EmailSignupModalProps {
 }
 
 export function EmailSignupModal({ isOpen, onClose }: EmailSignupModalProps) {
-  if (!isOpen) return null;
-
   const [email, setEmail] = useState('');
   const [zip, setZip] = useState('');
   const [interest, setInterest] = useState('Scout Bobber');
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  // Handle ESC key to close
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,23 +32,25 @@ export function EmailSignupModal({ isOpen, onClose }: EmailSignupModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-md bg-[#141414] text-white border border-white/10 rounded-xl shadow-2xl overflow-hidden animate-fadeIn ring-1 ring-white/5">
-        {/* Header */}
-        <div className="bg-[#ff2c2c] text-black px-6 py-3.5 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Mail className="w-5 h-5 text-black" />
-            <h3 className="font-black uppercase font-display text-base tracking-wide">
-              EXCLUSIVE OFFERS & NEWS
-            </h3>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md p-2 sm:p-4 md:p-6 overscroll-contain">
+      <div className="min-h-full flex items-start sm:items-center justify-center py-2 sm:py-6">
+        <div className="relative w-full max-w-md bg-[#141414] text-white border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-fadeIn ring-1 ring-white/10">
+          {/* Header */}
+          <div className="sticky top-0 z-30 bg-[#ff2c2c] text-black px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between shadow-lg">
+            <div className="flex items-center space-x-2">
+              <Mail className="w-5 h-5 text-black" />
+              <h3 className="font-black uppercase font-display text-sm sm:text-base tracking-wide">
+                EXCLUSIVE OFFERS & NEWS
+              </h3>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg bg-black/10 hover:bg-black hover:text-white text-black transition-all active:scale-95 shrink-0 cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1 rounded-full text-black hover:bg-black/15 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
 
         {isSubscribed ? (
           <div className="p-8 text-center space-y-4 bg-[#0e0e0e]">
@@ -129,6 +143,7 @@ export function EmailSignupModal({ isOpen, onClose }: EmailSignupModalProps) {
             </button>
           </form>
         )}
+        </div>
       </div>
     </div>
   );

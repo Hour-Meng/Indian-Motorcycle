@@ -26,23 +26,25 @@ export function DealerLocatorModal({ isOpen, onClose, preSelectedModel }: Dealer
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-[#141414] text-white border border-white/10 rounded-xl shadow-2xl overflow-hidden my-8 ring-1 ring-white/5">
-        {/* Header */}
-        <div className="bg-[#ff2c2c] text-black px-6 py-3.5 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <MapPin className="w-5 h-5 text-black" />
-            <h3 className="font-black uppercase font-display text-base tracking-wide">
-              FIND DEALER & SCHEDULE TEST RIDE
-            </h3>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md p-2 sm:p-4 md:p-6 overscroll-contain">
+      <div className="min-h-full flex items-start sm:items-center justify-center py-2 sm:py-6">
+        <div className="relative w-full max-w-4xl bg-[#141414] text-white border border-white/10 rounded-2xl shadow-2xl overflow-hidden ring-1 ring-white/10 animate-fadeIn">
+          {/* Header */}
+          <div className="sticky top-0 z-30 bg-[#ff2c2c] text-black px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between shadow-lg">
+            <div className="flex items-center space-x-2">
+              <MapPin className="w-5 h-5 text-black" />
+              <h3 className="font-black uppercase font-display text-sm sm:text-base tracking-wide">
+                FIND DEALER & SCHEDULE TEST RIDE
+              </h3>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg bg-black/10 hover:bg-black hover:text-white text-black transition-all active:scale-95 shrink-0 cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1 rounded-full text-black hover:bg-black/15 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
 
         {isBooked ? (
           <div className="p-10 text-center space-y-4 bg-[#0e0e0e]">
@@ -220,6 +222,7 @@ export function DealerLocatorModal({ isOpen, onClose, preSelectedModel }: Dealer
             </form>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

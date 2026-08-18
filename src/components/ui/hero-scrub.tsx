@@ -242,36 +242,33 @@ export function HeroScrub({
         },
       });
 
-      // 1. Initial Scale & Title slide out (starts at 0.06 to ensure full visibility at scroll 0)
-      master.to(idleBadgeRef.current, { opacity: 0, y: 10, duration: 0.06, ease: "power1.in" }, 0.02);
-      master.to(cardRef.current, { scale: 1, ease: "power2.out", duration: 0.12 }, 0.04);
+      // 1. Initial Scale & Title slide out (gentle transition to 1.0 - no over-zooming)
+      master.to(idleBadgeRef.current, { opacity: 0, y: 10, duration: 0.08, ease: "power1.in" }, 0.02);
+      master.to(cardRef.current, { scale: 1.0, ease: "power2.out", duration: 0.18 }, 0.04);
       master.to(titleTopRef.current, {
         x: () => (window.innerWidth < 768 ? "-70vw" : "-60vw"),
         letterSpacing: "0.02em",
         opacity: 0,
         ease: "power2.inOut",
-        duration: 0.16,
-      }, 0.06);
+        duration: 0.18,
+      }, 0.04);
       master.to(titleBottomRef.current, {
         x: () => (window.innerWidth < 768 ? "70vw" : "60vw"),
         letterSpacing: "0.02em",
         opacity: 0,
         ease: "power2.inOut",
-        duration: 0.16,
-      }, 0.06);
+        duration: 0.18,
+      }, 0.04);
 
-      // 2. Full Immersive Zoom
-      master.to(cardRef.current, { scale: immerseScale(), ease: "power2.in", duration: 0.65 }, 0.16);
-
-      // 3. Zoom Out & Restore Titles at End of Scrub
-      master.to(cardRef.current, { scale: startScale(), ease: "power3.inOut", duration: 0.2 }, 0.8);
+      // 2. Zoom Out & Restore Titles at End of Scrub
+      master.to(cardRef.current, { scale: startScale(), ease: "power2.inOut", duration: 0.18 }, 0.82);
       master.to(titleTopRef.current, {
-        x: 0, opacity: 1, letterSpacing: "-0.04em", ease: "power2.inOut", duration: 0.2,
-      }, 0.8);
+        x: 0, opacity: 1, letterSpacing: "-0.04em", ease: "power2.inOut", duration: 0.18,
+      }, 0.82);
       master.to(titleBottomRef.current, {
-        x: 0, opacity: 1, letterSpacing: "-0.04em", ease: "power2.inOut", duration: 0.2,
-      }, 0.8);
-      master.to(idleBadgeRef.current, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.85);
+        x: 0, opacity: 1, letterSpacing: "-0.04em", ease: "power2.inOut", duration: 0.18,
+      }, 0.82);
+      master.to(idleBadgeRef.current, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.88);
 
       // Storyboard Overlays Timeline
       const storyTimeline = gsap.timeline({

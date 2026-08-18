@@ -10,7 +10,6 @@ import {
   Zap,
   Sliders,
   ArrowRight,
-  Sparkles,
   Check,
 } from 'lucide-react';
 import { MotorcycleModel, MOTORCYCLE_LINEUP } from '@/src/data/motorcycles';
@@ -92,12 +91,8 @@ export function VideoExpansionModal({
   const [selectedColorIdx, setSelectedColorIdx] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [telemetrySpeed, setTelemetrySpeed] = useState<number>(85);
-  const [isEngineRevving, setIsEngineRevving] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const osc1Ref = useRef<OscillatorNode | null>(null);
-  const osc2Ref = useRef<OscillatorNode | null>(null);
 
   useEffect(() => {
     if (initialCardId) {
@@ -140,11 +135,6 @@ export function VideoExpansionModal({
     activeModel.colors[selectedColorIdx] || activeModel.colors[0];
 
   const handleClose = () => {
-    if (isEngineRevving && audioCtxRef.current) {
-      audioCtxRef.current.close();
-      audioCtxRef.current = null;
-      setIsEngineRevving(false);
-    }
     onClose();
   };
 
@@ -152,58 +142,6 @@ export function VideoExpansionModal({
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
-    }
-  };
-
-  // Audio Engine Rev Synthesizer
-  const toggleEngineRev = () => {
-    if (isEngineRevving) {
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close();
-        audioCtxRef.current = null;
-      }
-      setIsEngineRevving(false);
-      return;
-    }
-
-    try {
-      const AudioContextClass =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const ctx = new AudioContextClass();
-      audioCtxRef.current = ctx;
-
-      const osc1 = ctx.createOscillator();
-      const osc2 = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const filter = ctx.createBiquadFilter();
-
-      osc1.type = 'sawtooth';
-      osc2.type = 'triangle';
-
-      const baseHz = 28;
-      osc1.frequency.setValueAtTime(baseHz * 1.5, ctx.currentTime);
-      osc2.frequency.setValueAtTime(baseHz * 0.75, ctx.currentTime);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(460, ctx.currentTime);
-      filter.Q.setValueAtTime(3.5, ctx.currentTime);
-
-      gain.gain.setValueAtTime(0.18, ctx.currentTime);
-
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc1.start();
-      osc2.start();
-
-      osc1Ref.current = osc1;
-      osc2Ref.current = osc2;
-      setIsEngineRevving(true);
-    } catch {
-      console.log('Audio Context unavailable');
     }
   };
 
@@ -250,20 +188,6 @@ export function VideoExpansionModal({
                   </span>
                 </div>
               </div>
-
-              {/* V-Twin Rev Engine Sound Button */}
-              <button
-                onClick={toggleEngineRev}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
-                  isEngineRevving
-                    ? 'bg-[#ff2c2c] text-black shadow-[0_0_20px_rgba(255,44,44,0.5)]'
-                    : 'bg-[#181818] text-white border border-white/20 hover:border-[#ff2c2c]'
-                }`}
-                title="Simulate V-Twin Engine Exhaust Rev"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{isEngineRevving ? 'Stop Rev' : 'Rev Engine'}</span>
-              </button>
 
               {/* Close Button */}
               <button
