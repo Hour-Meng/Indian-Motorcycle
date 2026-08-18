@@ -8,7 +8,7 @@ function copyStaticAssetsPlugin() {
   return {
     name: 'copy-static-assets',
     closeBundle() {
-      const dirs = ['images', 'videos', 'downloads', 'assets', 'scout-bobber-3d'];
+      const dirs = ['images', 'videos', 'downloads', 'scout-bobber-3d'];
       const outDir = path.resolve(__dirname, 'dist');
       for (const dir of dirs) {
         const srcDir = path.resolve(__dirname, dir);
